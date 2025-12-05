@@ -1,18 +1,18 @@
 export const CURRENT_VERSION = process.env.currentVersion;
-export const AUTH_TOKEN = 'umami.auth';
-export const LOCALE_CONFIG = 'umami.locale';
-export const TIMEZONE_CONFIG = 'umami.timezone';
-export const DATE_RANGE_CONFIG = 'umami.date-range';
-export const THEME_CONFIG = 'umami.theme';
-export const DASHBOARD_CONFIG = 'umami.dashboard';
-export const LAST_TEAM_CONFIG = 'umami.last-team';
-export const VERSION_CHECK = 'umami.version-check';
-export const SHARE_TOKEN_HEADER = 'x-umami-share-token';
-export const HOMEPAGE_URL = 'https://umami.is';
-export const DOCS_URL = 'https://umami.is/docs';
-export const REPO_URL = 'https://github.com/umami-software/umami';
-export const UPDATES_URL = 'https://api.umami.is/v1/updates';
-export const TELEMETRY_PIXEL = 'https://i.umami.is/a.png';
+export const AUTH_TOKEN = 'convertair.auth';
+export const LOCALE_CONFIG = 'convertair.locale';
+export const TIMEZONE_CONFIG = 'convertair.timezone';
+export const DATE_RANGE_CONFIG = 'convertair.date-range';
+export const THEME_CONFIG = 'convertair.theme';
+export const DASHBOARD_CONFIG = 'convertair.dashboard';
+export const LAST_TEAM_CONFIG = 'convertair.last-team';
+export const VERSION_CHECK = 'convertair.version-check';
+export const SHARE_TOKEN_HEADER = 'x-convertair-share-token';
+export const HOMEPAGE_URL = 'https://convertair.io';
+export const DOCS_URL = 'https://convertair.io/docs';
+export const REPO_URL = 'https://github.com/convertair/convertair';
+export const UPDATES_URL = '';
+export const TELEMETRY_PIXEL = '';
 export const FAVICON_URL = 'https://icons.duckduckgo.com/ip3/{{domain}}.ico';
 export const LINKS_URL = `${globalThis?.location?.origin}/q`;
 export const PIXELS_URL = `${globalThis?.location?.origin}/p`;
@@ -84,6 +84,33 @@ export const FILTER_COLUMNS = {
 export const COLLECTION_TYPE = {
   event: 'event',
   identify: 'identify',
+  personality: 'personality',
+  conversion: 'conversion',
+} as const;
+
+// Persona types for behavior-based personalization
+export const PERSONA_TYPES = {
+  valueSeeeker: 'value-seeker', // Focused on pricing, ROI, cost comparison
+  solutionSeeker: 'solution-seeker', // Looking for features, how it works
+  trustSeeker: 'trust-seeker', // Needs social proof, case studies
+  readyBuyer: 'ready-buyer', // High intent, ready to convert
+  explorer: 'explorer', // Early stage, just browsing
+} as const;
+
+// Page categories for persona detection
+export const PAGE_CATEGORIES = {
+  value: ['pricing', 'plans', 'cost', 'roi', 'compare', 'discount', 'free', 'trial'],
+  solution: ['features', 'how-it-works', 'solutions', 'use-cases', 'product', 'demo', 'tour'],
+  trust: ['case-studies', 'testimonials', 'customers', 'about', 'team', 'reviews', 'press'],
+  intent: ['signup', 'register', 'start', 'contact', 'book', 'schedule', 'get-started'],
+} as const;
+
+// Content variant types
+export const CONTENT_VARIANT_TYPES = {
+  text: 'text', // Replace text content
+  html: 'html', // Replace innerHTML
+  attribute: 'attribute', // Set attribute (format: "attr=value")
+  class: 'class', // Replace className
 } as const;
 
 export const EVENT_TYPE = {

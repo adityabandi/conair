@@ -1,13 +1,13 @@
 {
-  "name": "umami",
-  "version": "3.0.1",
-  "description": "A modern, privacy-focused alternative to Google Analytics.",
-  "author": "Umami Software, Inc. <hello@umami.is>",
+  "name": "convertair",
+  "version": "1.0.0",
+  "description": "AI-powered persona detection and conversion optimization.",
+  "author": "Convert Air",
   "license": "MIT",
-  "homepage": "https://umami.is",
+  "homepage": "https://convertair.io",
   "repository": {
     "type": "git",
-    "url": "https://github.com/umami-software/umami.git"
+    "url": "https://github.com/convertair/convertair.git"
   },
   "type": "module",
   "scripts": {
@@ -42,6 +42,7 @@
     "download-country-names": "node scripts/download-country-names.js",
     "download-language-names": "node scripts/download-language-names.js",
     "change-password": "node scripts/change-password.js",
+    "create-user": "node scripts/create-user.js",
     "lint": "next lint --quiet",
     "prepare": "node -e \"if (process.env.NODE_ENV !== 'production'){process.exit(1)} \" || husky install",
     "postbuild": "node scripts/postbuild.js",

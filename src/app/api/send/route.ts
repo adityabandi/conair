@@ -11,7 +11,13 @@ import { secret, uuid, hash } from '@/lib/crypto';
 import { COLLECTION_TYPE, EVENT_TYPE } from '@/lib/constants';
 import { anyObjectParam, urlOrPathParam } from '@/lib/schema';
 import { safeDecodeURI, safeDecodeURIComponent } from '@/lib/url';
-import { createSession, saveEvent, saveSessionData } from '@/queries/sql';
+import {
+  createSession,
+  saveEvent,
+  saveSessionData,
+  savePersonalityProfile,
+  saveConversionEvent,
+} from '@/queries/sql';
 import { serializeError } from 'serialize-error';
 
 interface Cache {
@@ -22,7 +28,7 @@ interface Cache {
 }
 
 const schema = z.object({
-  type: z.enum(['event', 'identify']),
+  type: z.enum(['event', 'identify', 'personality', 'conversion']),
   payload: z
     .object({
       website: z.uuid().optional(),
@@ -255,7 +261,6 @@ export async function POST(request: Request) {
         lifatid,
         twclid,
       });
-    } else if (type === COLLECTION_TYPE.identify) {
       if (data) {
         await saveSessionData({
           websiteId,
@@ -263,6 +268,41 @@ export async function POST(request: Request) {
           sessionData: data,
           distinctId: id,
           createdAt,
+        });
+      }
+    } else if (type === COLLECTION_TYPE.personality) {
+      if (data) {
+        await savePersonalityProfile({
+          sessionId,
+          websiteId,
+          // New persona fields
+          persona: data.persona,
+          confidence: data.confidence,
+          scores: data.scores,
+          pageVisits: data.pageVisits,
+          // ML training fields
+          behaviorFeatures: data.behaviorFeatures,
+          featureVector: data.featureVector,
+          sessionDuration: data.sessionDuration,
+          // Legacy fields (backward compatibility)
+          impulsivityScore: data.impulsivityScore,
+          priceSensitivityScore: data.priceSensitivityScore,
+          focusScore: data.focusScore,
+          rawSignals: data.rawSignals,
+        });
+      }
+    } else if (type === COLLECTION_TYPE.conversion) {
+      if (data) {
+        await saveConversionEvent({
+          websiteId,
+          sessionId,
+          eventType: data.eventType,
+          eventValue: data.eventValue,
+          eventData: data,
+          persona: data.persona,
+          confidence: data.confidence,
+          pagesBefore: data.pagesBefore,
+          timeToConvert: data.timeToConvert,
         });
       }
     }

@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persona Intelligence Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #faf9f7;
+            --bg-secondary: #f5f3ef;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b6b6b;
+            --text-muted: #9a9a9a;
+            --accent: #d97706;
+            --accent-light: #fef3c7;
+            --border: #e8e5e0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+            --shadow-lg: 0 4px 20px rgba(0,0,0,0.08);
+            --radius: 16px;
+            --radius-sm: 8px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 120px 24px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 150%;
+            background: radial-gradient(ellipse, rgba(217, 119, 6, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            width: fit-content;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            max-width: 800px;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent) 0%, #b45309 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--text-primary);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 100px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hero-cta svg {
+            transition: transform 0.2s;
+        }
+
+        .hero-cta:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 24px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), #b45309);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .card-tag {
+            display: inline-block;
+            background: var(--bg-secondary);
+            color: var(--text-muted);
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 16px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: var(--bg-secondary);
+        }
+
+        .testimonial-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+        }
+
+        .testimonial-card .quote {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .testimonial-card .quote::before {
+            content: '"';
+            font-size: 4rem;
+            color: var(--accent-light);
+            position: absolute;
+            top: -20px;
+            left: -10px;
+            font-family: Georgia, serif;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent) 0%, #b45309 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .testimonial-info h4 {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .testimonial-info p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Pricing */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .price-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .price-card.featured {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 1px var(--accent), var(--shadow-lg);
+            transform: scale(1.02);
+        }
+
+        .price-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .price-card .price {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 16px 0;
+        }
+
+        .price-card .price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .price-card ul {
+            list-style: none;
+            text-align: left;
+            margin: 24px 0;
+        }
+
+        .price-card ul li {
+            padding: 8px 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .price-card ul li::before {
+            content: '✓';
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .price-btn {
+            width: 100%;
+            padding: 14px 24px;
+            border-radius: 100px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .price-btn.primary {
+            background: var(--text-primary);
+            color: white;
+        }
+
+        .price-btn.secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--text-primary);
+            color: white;
+            text-align: center;
+            border-radius: var(--radius);
+            margin: 0 24px 100px;
+            padding: 80px 40px;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .cta-section p {
+            opacity: 0.8;
+            font-size: 1.1rem;
+            margin-bottom: 32px;
+        }
+
+        .cta-section .hero-cta {
+            background: white;
+            color: var(--text-primary);
+        }
+
+        /* Persona Detection Panel */
+        .persona-panel {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 360px;
+            background: var(--text-primary);
+            color: white;
+            border-radius: var(--radius);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            z-index: 1000;
+            font-size: 13px;
+        }
+
+        .persona-panel-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .persona-panel-header h3 {
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .persona-panel-header .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .persona-panel-body {
+            padding: 24px;
+        }
+
+        .current-persona {
+            background: linear-gradient(135deg, var(--accent) 0%, #b45309 100%);
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .current-persona .label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+            margin-bottom: 4px;
+        }
+
+        .current-persona .persona-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .current-persona .confidence {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .metric {
+            background: rgba(255,255,255,0.05);
+            padding: 12px 16px;
+            border-radius: 10px;
+        }
+
+        .metric .label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 4px;
+        }
+
+        .metric .value {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .score-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .score-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .score-bar .bar-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+
+        .score-bar .bar-header span:first-child {
+            opacity: 0.7;
+        }
+
+        .score-bar .bar-track {
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .score-bar .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #b45309);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        /* Personalized content indicator */
+        [data-personalized] {
+            position: relative;
+        }
+
+        [data-personalized]::after {
+            content: '✨ Personalized';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent);
+            color: white;
+            font-size: 10px;
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-weight: 600;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .scroll-indicator svg {
+            display: block;
+            margin: 0 auto 12px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+
+        /* Reading progress */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), #b45309);
+            z-index: 1001;
+            transition: width 0.1s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Reading progress bar -->
+    <div class="reading-progress" id="reading-progress"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">
+                <span>Live Demo</span>
+            </div>
+            <h1 id="hero-headline">Understand your visitors.<br><span>Convert them better.</span></h1>
+            <p id="hero-subhead">AI-powered persona detection that learns from behavior in real-time. Show every visitor exactly what they need to see.</p>
+            <a href="#features" class="hero-cta" id="hero-cta">
+                Explore Features
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <div class="scroll-indicator">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+        Scroll to explore — we're learning about you
+    </div>
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Built for conversion</h2>
+                <p>Everything you need to understand and convert your visitors</p>
+            </div>
+            <div class="cards-grid">
+                <div class="card" data-category="solution">
+                    <div class="card-icon">🎯</div>
+                    <h3>Real-time Detection</h3>
+                    <p>Identify visitor intent within seconds of landing. No cookies, no tracking fatigue.</p>
+                    <span class="card-tag">Solution</span>
+                </div>
+                <div class="card" data-category="solution">
+                    <div class="card-icon">⚡</div>
+                    <h3>Instant Personalization</h3>
+                    <p>Dynamically swap headlines, CTAs, and content based on detected persona.</p>
+                    <span class="card-tag">Solution</span>
+                </div>
+                <div class="card" data-category="value">
+                    <div class="card-icon">📊</div>
+                    <h3>Conversion Analytics</h3>
+                    <p>See which personas convert best. Optimize your funnel with real data.</p>
+                    <span class="card-tag">Value</span>
+                </div>
+                <div class="card" data-category="trust">
+                    <div class="card-icon">🔒</div>
+                    <h3>Privacy-First</h3>
+                    <p>No PII collected. GDPR compliant. Your visitors' trust, protected.</p>
+                    <span class="card-tag">Trust</span>
+                </div>
+                <div class="card" data-category="solution">
+                    <div class="card-icon">🔌</div>
+                    <h3>One-Line Install</h3>
+                    <p>Add a single script tag. Works with any website, any framework.</p>
+                    <span class="card-tag">Solution</span>
+                </div>
+                <div class="card" data-category="trust">
+                    <div class="card-icon">🏢</div>
+                    <h3>Enterprise Ready</h3>
+                    <p>SOC2 compliant, 99.99% uptime SLA, dedicated support.</p>
+                    <span class="card-tag">Trust</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="testimonials-headline">Loved by growth teams</h2>
+                <p>See why leading companies trust us with their conversion</p>
+            </div>
+            <div class="cards-grid">
+                <div class="testimonial-card">
+                    <p class="quote" id="testimonial-1">We saw a 34% lift in conversions within the first month. The persona detection is eerily accurate.</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SC</div>
+                        <div class="testimonial-info">
+                            <h4>Sarah Chen</h4>
+                            <p>Head of Growth, TechCorp</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="quote" id="testimonial-2">Finally, personalization that actually works. No more guessing what our visitors want.</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">MJ</div>
+                        <div class="testimonial-info">
+                            <h4>Mike Johnson</h4>
+                            <p>VP Marketing, ScaleUp</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="quote" id="testimonial-3">Setup took 5 minutes. ROI was clear within a week. Best marketing investment we've made.</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">ED</div>
+                        <div class="testimonial-info">
+                            <h4>Emma Davis</h4>
+                            <p>Founder, LaunchPad</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="pricing-headline">Simple pricing</h2>
+                <p id="pricing-subhead">Start free. Scale when you're ready.</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <h3>Starter</h3>
+                    <div class="price">$0<span>/mo</span></div>
+                    <ul>
+                        <li>Up to 10k visitors/mo</li>
+                        <li>3 persona types</li>
+                        <li>Basic analytics</li>
+                        <li>Community support</li>
+                    </ul>
+                    <button class="price-btn secondary">Get Started</button>
+                </div>
+                <div class="price-card featured">
+                    <h3>Pro</h3>
+                    <div class="price">$79<span>/mo</span></div>
+                    <ul>
+                        <li>Up to 100k visitors/mo</li>
+                        <li>Unlimited personas</li>
+                        <li>A/B testing</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <button class="price-btn primary">Start Free Trial</button>
+                </div>
+                <div class="price-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">Custom</div>
+                    <ul>
+                        <li>Unlimited visitors</li>
+                        <li>Custom integrations</li>
+                        <li>Dedicated CSM</li>
+                        <li>SLA guarantee</li>
+                    </ul>
+                    <button class="price-btn secondary">Contact Sales</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <div class="container">
+        <section class="cta-section">
+            <h2 id="final-cta-headline">Ready to convert more visitors?</h2>
+            <p id="final-cta-subhead">Join 2,000+ companies using persona intelligence</p>
+            <a href="#" class="hero-cta" id="final-cta-button">
+                Start Free Trial
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+    </div>
+
+    <!-- Persona Detection Panel -->
+    <div class="persona-panel">
+        <div class="persona-panel-header">
+            <h3><span class="live-dot"></span> Persona Intelligence</h3>
+            <span style="opacity: 0.5; font-size: 11px;">LIVE</span>
+        </div>
+        <div class="persona-panel-body">
+            <div class="current-persona">
+                <div class="label">Detected Persona</div>
+                <div class="persona-name" id="persona-name">Analyzing...</div>
+                <div class="confidence" id="confidence-text">Gathering signals</div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="label">Time on Page</div>
+                    <div class="value" id="time-value">0s</div>
+                </div>
+                <div class="metric">
+                    <div class="label">Scroll Depth</div>
+                    <div class="value" id="scroll-value">0%</div>
+                </div>
+                <div class="metric">
+                    <div class="label">Sections Viewed</div>
+                    <div class="value" id="sections-value">0</div>
+                </div>
+                <div class="metric">
+                    <div class="label">Engagement</div>
+                    <div class="value" id="engagement-value">Low</div>
+                </div>
+            </div>
+
+            <div class="score-bars">
+                <div class="score-bar">
+                    <div class="bar-header">
+                        <span>💰 Value-Seeker</span>
+                        <span id="value-score">0</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" id="value-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="score-bar">
+                    <div class="bar-header">
+                        <span>⚡ Solution-Seeker</span>
+                        <span id="solution-score">0</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" id="solution-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="score-bar">
+                    <div class="bar-header">
+                        <span>🤝 Trust-Seeker</span>
+                        <span id="trust-score">0</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" id="trust-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="score-bar">
+                    <div class="bar-header">
+                        <span>🚀 Ready-Buyer</span>
+                        <span id="intent-score">0</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" id="intent-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // REAL BEHAVIOR TRACKING (like actual tracker)
+        // ========================================
+
+        const state = {
+            startTime: Date.now(),
+            maxScroll: 0,
+            sectionsViewed: new Set(),
+            scores: { value: 0, solution: 0, trust: 0, intent: 0 },
+            persona: 'explorer',
+            confidence: 0,
+            lastActivity: Date.now(),
+            isEngaged: false,
+            readingTime: {},  // Track time per section
+            currentSection: null,
+            sectionEnterTime: null,
+        };
+
+        // Content variants per persona
+        const VARIANTS = {
+            'value-seeker': {
+                '#hero-headline': 'See 3x ROI in your first month.<br><span>Guaranteed.</span>',
+                '#hero-subhead': 'Our customers see an average 34% lift in conversions. Calculate your potential revenue increase.',
+                '#hero-cta': 'Calculate My ROI',
+                '#pricing-headline': 'Pricing that pays for itself',
+                '#pricing-subhead': 'Most customers recoup their investment in the first week',
+                '#final-cta-headline': 'See your revenue potential',
+                '#final-cta-button': 'Get ROI Estimate',
+            },
+            'solution-seeker': {
+                '#hero-headline': 'The complete<br><span>personalization platform.</span>',
+                '#hero-subhead': 'One script. Real-time detection. Automatic content switching. See how it works in 2 minutes.',
+                '#hero-cta': 'Watch Demo',
+                '#pricing-headline': 'Everything you need. Nothing you don\'t.',
+                '#final-cta-headline': 'See it in action',
+                '#final-cta-button': 'Watch 2-Min Demo',
+            },
+            'trust-seeker': {
+                '#hero-headline': 'Trusted by 2,000+<br><span>growth teams.</span>',
+                '#hero-subhead': 'Join companies like Stripe, Notion, and Linear who use persona intelligence to convert more visitors.',
+                '#hero-cta': 'Read Case Studies',
+                '#testimonials-headline': 'Join industry leaders',
+                '#final-cta-headline': 'Join 2,000+ happy customers',
+                '#final-cta-button': 'See Success Stories',
+            },
+            'ready-buyer': {
+                '#hero-headline': 'Start converting<br><span>in 5 minutes.</span>',
+                '#hero-subhead': 'One line of code. No credit card required. Cancel anytime. Your first 10k visitors are free.',
+                '#hero-cta': 'Start Free Now →',
+                '#pricing-subhead': 'No credit card required. Start in 5 minutes.',
+                '#final-cta-headline': 'Ready? Let\'s go.',
+                '#final-cta-subhead': 'Free forever for small sites. No commitment.',
+                '#final-cta-button': 'Create Free Account →',
+            },
+        };
+
+        // ========================================
+        // TRACKING FUNCTIONS
+        // ========================================
+
+        // Track scroll depth
+        function trackScroll() {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = Math.round((window.scrollY / scrollHeight) * 100);
+
+            if (scrollPercent > state.maxScroll) {
+                state.maxScroll = scrollPercent;
+
+                // Award points based on scroll depth milestones
+                if (scrollPercent >= 25 && !state.sectionsViewed.has('scroll-25')) {
+                    state.sectionsViewed.add('scroll-25');
+                }
+                if (scrollPercent >= 50 && !state.sectionsViewed.has('scroll-50')) {
+                    state.sectionsViewed.add('scroll-50');
+                }
+                if (scrollPercent >= 75 && !state.sectionsViewed.has('scroll-75')) {
+                    state.sectionsViewed.add('scroll-75');
+                }
+            }
+
+            // Update reading progress bar
+            document.getElementById('reading-progress').style.width = scrollPercent + '%';
+        }
+
+        // Track section visibility (Intersection Observer)
+        function setupSectionTracking() {
+            const sections = document.querySelectorAll('section[id]');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const sectionId = entry.target.id;
+
+                    if (entry.isIntersecting) {
+                        // Entering section
+                        if (state.currentSection !== sectionId) {
+                            // Save time for previous section
+                            if (state.currentSection && state.sectionEnterTime) {
+                                const timeSpent = (Date.now() - state.sectionEnterTime) / 1000;
+                                state.readingTime[state.currentSection] =
+                                    (state.readingTime[state.currentSection] || 0) + timeSpent;
+                            }
+
+                            state.currentSection = sectionId;
+                            state.sectionEnterTime = Date.now();
+                            state.sectionsViewed.add(sectionId);
+
+                            // Award points based on section category
+                            const category = getSectionCategory(sectionId);
+                            if (category) {
+                                state.scores[category] += 2;
+                            }
+                        }
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            sections.forEach(section => observer.observe(section));
+        }
+
+        // Get category for a section
+        function getSectionCategory(sectionId) {
+            const categoryMap = {
+                'features': 'solution',
+                'testimonials': 'trust',
+                'pricing': 'value',
+            };
+            return categoryMap[sectionId];
+        }
+
+        // Track card interactions (hover + click)
+        function setupCardTracking() {
+            document.querySelectorAll('.card').forEach(card => {
+                let hoverStart = null;
+
+                card.addEventListener('mouseenter', () => {
+                    hoverStart = Date.now();
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    if (hoverStart) {
+                        const hoverTime = (Date.now() - hoverStart) / 1000;
+                        // Only count if hovered for > 1 second (reading)
+                        if (hoverTime > 1) {
+                            const category = card.dataset.category;
+                            if (category) {
+                                state.scores[category] += Math.min(3, hoverTime);
+                            }
+                        }
+                    }
+                });
+
+                card.addEventListener('click', () => {
+                    const category = card.dataset.category;
+                    if (category) {
+                        state.scores[category] += 5;
+                        state.scores.intent += 1; // Any click shows intent
+                    }
+                    updateUI();
+                });
+            });
+        }
+
+        // Track CTA clicks
+        function setupCTATracking() {
+            document.querySelectorAll('.hero-cta, .price-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    state.scores.intent += 10;
+                    updateUI();
+                });
+            });
+        }
+
+        // Track engagement (mouse movement, activity)
+        function trackEngagement() {
+            let activityTimeout;
+
+            const markActive = () => {
+                state.lastActivity = Date.now();
+                state.isEngaged = true;
+                clearTimeout(activityTimeout);
+                activityTimeout = setTimeout(() => {
+                    state.isEngaged = false;
+                }, 3000);
+            };
+
+            document.addEventListener('mousemove', markActive, { passive: true });
+            document.addEventListener('scroll', markActive, { passive: true });
+            document.addEventListener('click', markActive);
+        }
+
+        // ========================================
+        // PERSONA CALCULATION
+        // ========================================
+
+        function calculatePersona() {
+            const { scores } = state;
+            const timeOnPage = (Date.now() - state.startTime) / 1000;
+
+            // Time-based scoring boost
+            if (timeOnPage > 30) {
+                // Boost dominant category based on time spent
+                const dominant = Object.entries(scores).sort((a, b) => b[1] - a[1])[0];
+                if (dominant && dominant[1] > 0) {
+                    scores[dominant[0]] += timeOnPage / 30;
+                }
+            }
+
+            // Deep scroll = more engaged = boost intent
+            if (state.maxScroll > 70) {
+                scores.intent += 2;
+            }
+
+            // Calculate persona
+            const entries = Object.entries(scores).filter(([_, s]) => s > 0);
+            if (entries.length === 0) {
+                state.persona = 'explorer';
+                state.confidence = 0;
+                return;
+            }
+
+            entries.sort((a, b) => b[1] - a[1]);
+            const [topCategory, topScore] = entries[0];
+            const secondScore = entries[1]?.[1] || 0;
+            const totalScore = Object.values(scores).reduce((a, b) => a + b, 0);
+
+            // High intent overrides
+            if (scores.intent >= 10) {
+                state.persona = 'ready-buyer';
+            } else if (topScore >= 5) {
+                const personaMap = {
+                    value: 'value-seeker',
+                    solution: 'solution-seeker',
+                    trust: 'trust-seeker',
+                    intent: 'ready-buyer',
+                };
+                state.persona = personaMap[topCategory] || 'explorer';
+            } else {
+                state.persona = 'explorer';
+            }
+
+            // Confidence calculation
+            state.confidence = Math.min(100, Math.round(
+                ((topScore - secondScore) / (totalScore + 1)) * 50 +
+                Math.min(30, timeOnPage) +
+                (state.sectionsViewed.size * 5)
+            ));
+        }
+
+        // ========================================
+        // UI UPDATE
+        // ========================================
+
+        function updateUI() {
+            calculatePersona();
+
+            const timeOnPage = Math.round((Date.now() - state.startTime) / 1000);
+            const maxScore = Math.max(...Object.values(state.scores), 1);
+
+            // Update metrics
+            document.getElementById('time-value').textContent = timeOnPage + 's';
+            document.getElementById('scroll-value').textContent = state.maxScroll + '%';
+            document.getElementById('sections-value').textContent = state.sectionsViewed.size;
+
+            // Engagement level
+            let engagement = 'Low';
+            if (timeOnPage > 60 && state.maxScroll > 50) engagement = 'High';
+            else if (timeOnPage > 30 || state.maxScroll > 30) engagement = 'Medium';
+            document.getElementById('engagement-value').textContent = engagement;
+
+            // Update persona display
+            const personaDisplay = {
+                'explorer': 'Explorer',
+                'value-seeker': 'Value-Seeker',
+                'solution-seeker': 'Solution-Seeker',
+                'trust-seeker': 'Trust-Seeker',
+                'ready-buyer': 'Ready Buyer',
+            };
+            document.getElementById('persona-name').textContent = personaDisplay[state.persona] || 'Analyzing...';
+            document.getElementById('confidence-text').textContent =
+                state.confidence > 0 ? `${state.confidence}% confidence` : 'Gathering signals';
+
+            // Update score bars
+            ['value', 'solution', 'trust', 'intent'].forEach(key => {
+                const score = Math.round(state.scores[key]);
+                document.getElementById(`${key}-score`).textContent = score;
+                document.getElementById(`${key}-bar`).style.width =
+                    `${Math.min(100, (score / maxScore) * 100)}%`;
+            });
+
+            // Apply content variants (only below viewport)
+            applyVariants();
+        }
+
+        // Apply personalized content
+        const appliedVariants = new Set();
+
+        function applyVariants() {
+            const variants = VARIANTS[state.persona];
+            if (!variants || state.confidence < 30) return;
+
+            Object.entries(variants).forEach(([selector, content]) => {
+                if (appliedVariants.has(selector)) return;
+
+                const el = document.querySelector(selector);
+                if (!el) return;
+
+                const rect = el.getBoundingClientRect();
+
+                // Only apply to elements not currently in view
+                if (rect.top > window.innerHeight || rect.bottom < 0) {
+                    el.innerHTML = content;
+                    el.setAttribute('data-personalized', state.persona);
+                    appliedVariants.add(selector);
+                }
+            });
+        }
+
+        // ========================================
+        // INITIALIZATION
+        // ========================================
+
+        function init() {
+            setupSectionTracking();
+            setupCardTracking();
+            setupCTATracking();
+            trackEngagement();
+
+            // Scroll tracking
+            document.addEventListener('scroll', () => {
+                trackScroll();
+                requestAnimationFrame(updateUI);
+            }, { passive: true });
+
+            // Update UI periodically
+            setInterval(updateUI, 1000);
+
+            // Initial update
+            updateUI();
+        }
+
+        // Start when DOM is ready
+        if (document.readyState === 'complete') {
+            init();
+        } else {
+            document.addEventListener('DOMContentLoaded', init);
+        }
+    </script>
+</body>
+</html>

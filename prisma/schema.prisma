@@ -48,6 +48,7 @@ model Session {
   websiteEvents WebsiteEvent[]
   sessionData   SessionData[]
   revenue       Revenue[]
+  personalityProfile PersonalityProfile?
 
   @@index([createdAt])
   @@index([websiteId])
@@ -315,4 +316,281 @@ model Pixel {
   @@index([teamId])
   @@index([createdAt])
   @@map("pixel")
+}
+
+model PersonalityProfile {
+  id                    String    @id @default(uuid()) @map("profile_id") @db.Uuid
+  sessionId             String    @unique @map("session_id") @db.Uuid
+  // Persona classification
+  persona               String?   @db.VarChar(50)  // value-seeker, solution-seeker, trust-seeker, ready-buyer, explorer
+  confidence            Int?      // 0-100 confidence score
+  // Intent scores (what they care about)
+  valueScore            Int?      @map("value_score")      // Interest in pricing/ROI
+  solutionScore         Int?      @map("solution_score")   // Interest in features/how-it-works
+  trustScore            Int?      @map("trust_score")      // Interest in social proof/credibility
+  intentScore           Int?      @map("intent_score")     // Signup/contact intent signals
+  // Detailed tracking data
+  pageVisits            Json?     @map("page_visits")      // { category: [{ path, timeSpent, scrollDepth }] }
+  // Legacy fields (kept for backward compatibility)
+  impulsivityScore      Int?      @map("impulsivity_score")
+  priceSensitivityScore Int?      @map("price_sensitivity_score")
+  focusScore            Int?      @map("focus_score")
+  rawSignals            Json?     @map("raw_signals")
+  createdAt             DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt             DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  session Session @relation(fields: [sessionId], references: [id])
+
+  @@index([persona])
+  @@map("personality_profile")
+}
+
+// Content variants for persona-based personalization
+model ContentVariant {
+  id          String    @id @default(uuid()) @map("variant_id") @db.Uuid
+  websiteId   String    @map("website_id") @db.Uuid
+  // What persona this variant is for
+  persona     String    @db.VarChar(50)  // value-seeker, solution-seeker, trust-seeker, ready-buyer, explorer
+  // CSS selector or element ID to target
+  selector    String    @db.VarChar(500)
+  // The alternate content
+  content     String    @db.Text
+  // Type of content change
+  contentType String    @map("content_type") @db.VarChar(50)  // text, html, attribute, class
+  // Optional: only apply on specific pages
+  pagePath    String?   @map("page_path") @db.VarChar(500)
+  // Whether this variant is active
+  isActive    Boolean   @default(true) @map("is_active")
+  // Metadata
+  name        String?   @db.VarChar(200)  // Friendly name like "Hero headline for price-focused"
+  createdAt   DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@index([websiteId])
+  @@index([websiteId, persona])
+  @@index([websiteId, pagePath])
+  @@map("content_variant")
+}
+
+// Auto-detected pages from tracking
+model DetectedPage {
+  id          String    @id @default(uuid()) @map("page_id") @db.Uuid
+  websiteId   String    @map("website_id") @db.Uuid
+  // Page info
+  path        String    @db.VarChar(500)
+  title       String?   @db.VarChar(500)
+  // Aggregated stats
+  visits      Int       @default(0)
+  avgTimeOnPage Float?  @map("avg_time_on_page")
+  avgScrollDepth Float? @map("avg_scroll_depth")
+  // Auto-detected category
+  category    String?   @db.VarChar(50)  // value, solution, trust, intent, general
+  // Timestamps
+  firstSeen   DateTime? @default(now()) @map("first_seen") @db.Timestamptz(6)
+  lastSeen    DateTime? @map("last_seen") @db.Timestamptz(6)
+
+  @@unique([websiteId, path])
+  @@index([websiteId])
+  @@index([websiteId, category])
+  @@map("detected_page")
+}
+
+// ML Training data - stores feature vectors for model training
+model PersonaBehaviorSample {
+  id          String    @id @default(uuid()) @map("sample_id") @db.Uuid
+  websiteId   String    @map("website_id") @db.Uuid
+  sessionId   String    @map("session_id") @db.Uuid
+  // Feature vector (normalized 0-1 values)
+  featureVector Json    @map("feature_vector")
+  // Labels (ground truth for training)
+  predictedPersona String? @map("predicted_persona") @db.VarChar(50)
+  actualConversion String? @map("actual_conversion") @db.VarChar(100) // signup, purchase, contact, bounce, etc.
+  convertedValue   Decimal? @map("converted_value") @db.Decimal(19, 4) // revenue if applicable
+  // Behavioral summary
+  sessionDuration  Int?    @map("session_duration") // seconds
+  pageCount        Int?    @map("page_count")
+  engagementScore  Int?    @map("engagement_score") // 0-100
+  // Timestamps
+  createdAt   DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([websiteId])
+  @@index([websiteId, predictedPersona])
+  @@index([websiteId, actualConversion])
+  @@index([createdAt])
+  @@map("persona_behavior_sample")
+}
+
+// Daily aggregated persona analytics for admin dashboard
+model PersonaAnalytics {
+  id          String    @id @default(uuid()) @map("analytics_id") @db.Uuid
+  websiteId   String    @map("website_id") @db.Uuid
+  date        DateTime  @db.Date
+  // Persona distribution
+  valueSeekerCount    Int @default(0) @map("value_seeker_count")
+  solutionSeekerCount Int @default(0) @map("solution_seeker_count")
+  trustSeekerCount    Int @default(0) @map("trust_seeker_count")
+  readyBuyerCount     Int @default(0) @map("ready_buyer_count")
+  explorerCount       Int @default(0) @map("explorer_count")
+  totalSessions       Int @default(0) @map("total_sessions")
+  // Conversion rates by persona
+  valueSeekerConversions    Int @default(0) @map("value_seeker_conversions")
+  solutionSeekerConversions Int @default(0) @map("solution_seeker_conversions")
+  trustSeekerConversions    Int @default(0) @map("trust_seeker_conversions")
+  readyBuyerConversions     Int @default(0) @map("ready_buyer_conversions")
+  explorerConversions       Int @default(0) @map("explorer_conversions")
+  // Engagement metrics by persona (JSON for flexibility)
+  engagementByPersona Json? @map("engagement_by_persona")
+  // Average confidence scores
+  avgConfidence Float? @map("avg_confidence")
+
+  @@unique([websiteId, date])
+  @@index([websiteId])
+  @@index([websiteId, date])
+  @@map("persona_analytics")
+}
+
+// Conversion events for ML training
+model ConversionEvent {
+  id          String    @id @default(uuid()) @map("conversion_id") @db.Uuid
+  websiteId   String    @map("website_id") @db.Uuid
+  sessionId   String    @map("session_id") @db.Uuid
+  // Conversion details
+  eventType   String    @map("event_type") @db.VarChar(50) // signup, purchase, contact, demo_request, etc.
+  eventValue  Decimal?  @map("event_value") @db.Decimal(19, 4) // monetary value if applicable
+  eventData   Json?     @map("event_data") // additional context
+  // Persona at conversion time
+  persona     String?   @db.VarChar(50)
+  confidence  Int?
+  // Path to conversion
+  pagesBefore Json?     @map("pages_before") // pages visited before conversion
+  timeToConvert Int?    @map("time_to_convert") // seconds from session start
+  // Timestamps
+  createdAt   DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([websiteId])
+  @@index([websiteId, eventType])
+  @@index([websiteId, persona])
+  @@index([createdAt])
+  @@map("conversion_event")
+}
+
+// ============================================
+// INSIGHTS-DRIVEN AUTO-OPTIMIZATION
+// ============================================
+
+// Generated insights about what works for each persona
+model PersonaInsight {
+  id          String    @id @default(uuid()) @map("insight_id") @db.Uuid
+  websiteId   String    @map("website_id") @db.Uuid
+  // Which persona this insight is about
+  persona     String    @db.VarChar(50)
+  // Insight details
+  insightType String    @map("insight_type") @db.VarChar(50) // bounce_page, conversion_path, engagement_pattern, timing, content_preference
+  title       String    @db.VarChar(200)  // "Value-seekers bounce 40% on features page"
+  description String    @db.Text          // Longer explanation
+  impact      String    @db.VarChar(20)   // high, medium, low
+  confidence  Float                       // 0-1 confidence in this insight
+  // The data behind the insight
+  metrics     Json                        // { bounceRate: 0.4, sampleSize: 234, ... }
+  // Suggested action
+  actionType  String?   @map("action_type") @db.VarChar(50) // show_element, hide_element, reorder_page, add_cta, etc.
+  actionData  Json?     @map("action_data")  // { selector: '.pricing-link', position: 'hero' }
+  // Status
+  status      String    @default("new") @db.VarChar(20) // new, viewed, applied, dismissed
+  appliedAt   DateTime? @map("applied_at") @db.Timestamptz(6)
+  // Timestamps
+  createdAt   DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  expiresAt   DateTime? @map("expires_at") @db.Timestamptz(6) // Insights can become stale
+
+  @@index([websiteId])
+  @@index([websiteId, persona])
+  @@index([websiteId, status])
+  @@index([websiteId, impact])
+  @@map("persona_insight")
+}
+
+// Auto-learned optimization rules (applied automatically)
+model OptimizationRule {
+  id          String    @id @default(uuid()) @map("rule_id") @db.Uuid
+  websiteId   String    @map("website_id") @db.Uuid
+  // What personas this applies to
+  personas    String[]  @db.VarChar(50)   // Can apply to multiple personas
+  // Rule definition
+  name        String    @db.VarChar(200)
+  ruleType    String    @map("rule_type") @db.VarChar(50) // page_order, cta_priority, content_emphasis, skip_page
+  condition   Json                        // { persona: 'value-seeker', confidence: { gte: 60 } }
+  action      Json                        // { type: 'show_first', element: '.pricing-section' }
+  // Performance tracking
+  impressions Int       @default(0)       // How many times this rule fired
+  conversions Int       @default(0)       // How many conversions with this rule
+  // ML confidence
+  mlScore     Float?    @map("ml_score")  // Model confidence in this rule
+  // Status
+  isEnabled   Boolean   @default(true) @map("is_enabled")
+  isAutoGenerated Boolean @default(true) @map("is_auto_generated") // vs manually created
+  // Timestamps
+  createdAt   DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@index([websiteId])
+  @@index([websiteId, isEnabled])
+  @@map("optimization_rule")
+}
+
+// Track what optimization was shown to which session (for A/B learning)
+model SessionOptimization {
+  id          String    @id @default(uuid()) @map("session_opt_id") @db.Uuid
+  websiteId   String    @map("website_id") @db.Uuid
+  sessionId   String    @map("session_id") @db.Uuid
+  // What was shown
+  ruleId      String?   @map("rule_id") @db.Uuid  // Which rule was applied (null = control)
+  persona     String    @db.VarChar(50)
+  confidence  Int
+  // What happened
+  pagesViewed String[]  @map("pages_viewed") @db.VarChar(500)
+  converted   Boolean   @default(false)
+  conversionType String? @map("conversion_type") @db.VarChar(50)
+  conversionValue Decimal? @map("conversion_value") @db.Decimal(19, 4)
+  // Engagement
+  sessionDuration Int?  @map("session_duration")
+  engagementScore Int?  @map("engagement_score")
+  // Timestamp
+  createdAt   DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([websiteId])
+  @@index([websiteId, ruleId])
+  @@index([websiteId, persona])
+  @@index([websiteId, converted])
+  @@map("session_optimization")
+}
+
+// Live visitor tracking for real-time feed
+model LiveVisitor {
+  id          String    @id @default(uuid()) @map("visitor_id") @db.Uuid
+  websiteId   String    @map("website_id") @db.Uuid
+  sessionId   String    @unique @map("session_id") @db.Uuid
+  // Visitor info
+  persona     String?   @db.VarChar(50)
+  confidence  Int?
+  // Current state
+  currentPage String?   @map("current_page") @db.VarChar(500)
+  pageHistory String[]  @map("page_history") @db.VarChar(500)
+  // Engagement indicators
+  engagementScore Int?  @map("engagement_score")
+  isHighIntent    Boolean @default(false) @map("is_high_intent")
+  bounceRisk      Float?  @map("bounce_risk")
+  // Source
+  referrer    String?   @db.VarChar(500)
+  utmSource   String?   @map("utm_source") @db.VarChar(100)
+  device      String?   @db.VarChar(20)
+  country     String?   @db.Char(2)
+  // Timestamps
+  firstSeen   DateTime  @default(now()) @map("first_seen") @db.Timestamptz(6)
+  lastSeen    DateTime  @default(now()) @map("last_seen") @db.Timestamptz(6)
+
+  @@index([websiteId])
+  @@index([websiteId, lastSeen])
+  @@index([websiteId, persona])
+  @@index([websiteId, isHighIntent])
+  @@map("live_visitor")
 }

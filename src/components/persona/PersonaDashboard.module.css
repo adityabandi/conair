@@ -1,0 +1,264 @@
+.dashboard {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.card {
+  background: var(--base50);
+  border: 1px solid var(--base200);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.summaryCard {
+  background: var(--base50);
+  border: 1px solid var(--base200);
+  border-radius: 12px;
+  min-width: 180px;
+  flex: 1;
+}
+
+.personaCard {
+  background: var(--base50);
+  border: 1px solid var(--base200);
+  border-radius: 12px;
+  min-width: 240px;
+  flex: 1;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.personaCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.personaIcon {
+  font-size: 28px;
+}
+
+.progressBar {
+  height: 4px;
+  background: var(--base200);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+.insightBadge {
+  padding: 8px 16px;
+  border: 2px solid;
+  border-radius: 8px;
+  background: var(--base50);
+}
+
+.insightCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* Live Feed */
+.liveDot {
+  width: 12px;
+  height: 12px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.1);
+  }
+}
+
+.highIntentBadge {
+  background: linear-gradient(135deg, #ef4444, #f59e0b);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.visitorStream {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.visitorCard {
+  background: var(--base50);
+  border: 1px solid var(--base200);
+  border-left: 4px solid;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.visitorCard:hover {
+  background: var(--base100);
+}
+
+.visitorIcon {
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--base100);
+  border-radius: 50%;
+}
+
+.confidenceBadge {
+  font-size: 11px;
+  color: var(--base600);
+  background: var(--base100);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.intentBadge {
+  font-size: 11px;
+  color: white;
+  background: #ef4444;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.journeyStep {
+  font-size: 11px;
+  color: var(--base600);
+  background: var(--base100);
+  padding: 2px 6px;
+  border-radius: 4px;
+  max-width: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.engagementRing {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.engagementRing::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: var(--base50);
+  border-radius: 50%;
+}
+
+.engagementValue {
+  position: relative;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.deviceIcon {
+  font-size: 16px;
+}
+
+.countryFlag {
+  font-size: 14px;
+}
+
+.skeletonDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, var(--base100) 25%, var(--base200) 50%, var(--base100) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeletonText {
+  width: 120px;
+  height: 20px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--base100) 25%, var(--base200) 50%, var(--base100) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Insights */
+.insightCard {
+  background: var(--base50);
+  border: 1px solid var(--base200);
+  border-left: 4px solid;
+  border-radius: 8px;
+}
+
+.impactBadge {
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Skeletons */
+.skeletonCard,
+.skeletonLarge,
+.skeletonVisitor,
+.skeletonInsight {
+  background: linear-gradient(90deg, var(--base100) 25%, var(--base200) 50%, var(--base100) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+.skeletonCard {
+  height: 100px;
+  flex: 1;
+  min-width: 180px;
+}
+
+.skeletonLarge {
+  height: 300px;
+}
+
+.skeletonVisitor {
+  height: 80px;
+}
+
+.skeletonInsight {
+  height: 120px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

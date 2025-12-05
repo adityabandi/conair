@@ -99,6 +99,7 @@ export const reportTypeParam = z.enum([
   'funnel',
   'goal',
   'journey',
+  'persona',
   'retention',
   'revenue',
   'utm',
@@ -200,6 +201,16 @@ export const breakdownReportSchema = z.object({
   }),
 });
 
+export const personaReportSchema = z.object({
+  type: z.literal('persona'),
+  parameters: z.object({
+    startDate: z.coerce.date(),
+    endDate: z.coerce.date(),
+    persona: z.string().optional(),
+    groupBy: z.enum(['day', 'week', 'month']).optional(),
+  }),
+});
+
 export const reportBaseSchema = z.object({
   websiteId: z.uuid(),
   type: reportTypeParam,
@@ -212,6 +223,7 @@ export const reportTypeSchema = z.discriminatedUnion('type', [
   goalReportSchema,
   funnelReportSchema,
   journeyReportSchema,
+  personaReportSchema,
   retentionReportSchema,
   utmReportSchema,
   revenueReportSchema,
