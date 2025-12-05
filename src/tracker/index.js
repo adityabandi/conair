@@ -35,8 +35,8 @@
     hostUrl || '__COLLECT_API_HOST__' || currentScript.src.split('/').slice(0, -1).join('/');
   const endpoint = `${host.replace(/\/$/, '')}__COLLECT_API_ENDPOINT__`;
   const screen = `${width}x${height}`;
-  const eventRegex = /data-umami-event-([\w-_]+)/;
-  const eventNameAttribute = _data + 'umami-event';
+  const eventRegex = /data-convertair-event-([\w-_]+)/;
+  const eventNameAttribute = _data + 'convertair-event';
   const delayDuration = 300;
 
   /* ============================================
@@ -84,7 +84,7 @@
     engagementThreshold: 5,
     scrollThreshold: 30,
     updateInterval: 5000, // Faster updates for ML
-    storageKey: 'umami.persona',
+    storageKey: 'convertair.persona',
   };
 
   // Enhanced persona state with behavioral features
@@ -200,7 +200,7 @@
     // Dispatch instant persona event
     if (personaState.persona !== 'explorer' || signals.isReturning) {
       window.dispatchEvent(
-        new CustomEvent('umami:persona', {
+        new CustomEvent('convertair:persona', {
           detail: {
             persona: personaState.persona,
             confidence: personaState.confidence,
@@ -354,7 +354,7 @@
     );
 
     // Track hover on interactive elements
-    document.querySelectorAll('a, button, [data-umami-event]').forEach(el => {
+    document.querySelectorAll('a, button, [data-convertair-event]').forEach(el => {
       let hoverStart;
       el.addEventListener('mouseenter', () => {
         hoverStart = Date.now();
@@ -694,7 +694,7 @@
 
       // Dispatch event for real-time client-side switching
       window.dispatchEvent(
-        new CustomEvent('umami:persona', {
+        new CustomEvent('convertair:persona', {
           detail: {
             persona,
             confidence,
@@ -736,7 +736,7 @@
   const trackingDisabled = () =>
     disabled ||
     !website ||
-    (localStorage && localStorage.getItem('umami.disabled')) ||
+    (localStorage && localStorage.getItem('convertair.disabled')) ||
     (domain && !domains.includes(hostname)) ||
     (dnt && hasDoNotTrack());
 
@@ -758,7 +758,7 @@
         body: JSON.stringify({ type, payload }),
         headers: {
           'Content-Type': 'application/json',
-          ...(typeof cache !== 'undefined' && { 'x-umami-cache': cache }),
+          ...(typeof cache !== 'undefined' && { 'x-convertair-cache': cache }),
         },
         credentials,
       });
@@ -878,7 +878,7 @@
     init() {
       // Fetch variants after first persona update
       window.addEventListener(
-        'umami:persona',
+        'convertair:persona',
         async () => {
           if (this.variants.length === 0) {
             await this.fetchVariants();
@@ -968,8 +968,8 @@
     );
   };
 
-  if (!window.umami) {
-    window.umami = {
+  if (!window.convertair) {
+    window.convertair = {
       track,
       identify,
       // Conversion tracking for ML
@@ -985,7 +985,7 @@
       getFeatures: () => generateFeatureVector(),
       // Listen for persona changes
       onPersonaChange: callback => {
-        window.addEventListener('umami:persona', e => callback(e.detail));
+        window.addEventListener('convertair:persona', e => callback(e.detail));
       },
       // Manual content switching
       switchContent: (selector, content, type = 'text') => {
