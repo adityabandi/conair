@@ -1,11 +1,19 @@
 html,
 body {
   font-family: var(--font-family), sans-serif;
-  color: var(--font-color);
+  color: var(--text-primary, var(--font-color));
   font-size: var(--font-size);
-  background-color: var(--base-color-2);
+  background-color: var(--page-bg, var(--base-color-2));
   width: 100%;
   min-height: 100vh;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+html[data-theme='dark'],
+html[data-theme='dark'] body {
+  color-scheme: dark;
 }
 
 html[style*='padding-right'] {
@@ -15,7 +23,7 @@ html[style*='padding-right'] {
 a,
 a:active,
 a:hover {
-  color: var(--font-color);
+  color: var(--text-primary, var(--font-color));
   text-decoration: none;
 }
 

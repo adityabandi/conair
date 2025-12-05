@@ -208,18 +208,35 @@ export const ROLE_PERMISSIONS = {
   [ROLES.teamViewOnly]: [],
 } as const;
 
+// Anthropic-inspired clean color palette
 export const THEME_COLORS = {
   light: {
-    primary: '#2680eb',
-    text: '#838383',
-    line: '#d9d9d9',
-    fill: '#f9f9f9',
+    primary: '#D97706', // Warm amber/orange - Convert Air brand
+    secondary: '#0D9488', // Teal accent
+    success: '#059669', // Emerald green
+    warning: '#F59E0B', // Amber
+    error: '#DC2626', // Red
+    text: '#374151', // Cool gray
+    textMuted: '#6B7280',
+    line: '#E5E7EB',
+    fill: '#F9FAFB',
+    background: '#FFFFFF',
+    surface: '#FFFFFF',
+    surfaceHover: '#F3F4F6',
   },
   dark: {
-    primary: '#2680eb',
-    text: '#7b7b7b',
-    line: '#3a3a3a',
-    fill: '#191919',
+    primary: '#F59E0B', // Brighter amber for dark mode
+    secondary: '#14B8A6', // Brighter teal
+    success: '#10B981',
+    warning: '#FBBF24',
+    error: '#EF4444',
+    text: '#F3F4F6', // Light gray text
+    textMuted: '#9CA3AF',
+    line: '#374151',
+    fill: '#111827', // Near black
+    background: '#0F172A', // Deep slate
+    surface: '#1E293B', // Slate surface
+    surfaceHover: '#334155',
   },
 } as const;
 

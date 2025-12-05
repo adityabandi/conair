@@ -1,0 +1,261 @@
+/* Setup Wizard - Anthropic-inspired Clean Design */
+
+.wizard {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+/* Progress Bar */
+.progressBar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.progressStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.progressIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--surface-bg);
+  border: 2px solid var(--surface-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  transition: all 0.3s ease;
+}
+
+.progressStepActive .progressIcon {
+  background: #d97706;
+  border-color: #d97706;
+  color: white;
+}
+
+.progressStepCurrent .progressIcon {
+  box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.2);
+}
+
+.progressLine {
+  position: absolute;
+  top: 24px;
+  left: calc(50% + 30px);
+  width: calc(100% - 60px);
+  height: 2px;
+  background: var(--surface-border);
+}
+
+.progressStepActive .progressLine {
+  background: #d97706;
+}
+
+/* Step Content */
+.stepContent {
+  background: var(--surface-bg);
+  border: 1px solid var(--surface-border);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: var(--shadow-md);
+}
+
+/* Code Block */
+.codeBlock {
+  position: relative;
+  background: var(--surface-elevated, #0f172a);
+  border-radius: 12px;
+  padding: 20px;
+  font-family: 'Monaco', 'Menlo', monospace;
+  overflow: hidden;
+}
+
+.codeContent {
+  color: #e2e8f0;
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+  margin: 0;
+}
+
+.copyButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.code {
+  background: var(--surface-hover);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Monaco', 'Menlo', monospace;
+  font-size: 13px;
+}
+
+/* Info Box */
+.infoBox {
+  background: rgba(217, 119, 6, 0.08);
+  border: 1px solid rgba(217, 119, 6, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.infoIcon {
+  font-size: 20px;
+}
+
+.tipsList {
+  margin: 0;
+  padding-left: 20px;
+  list-style: disc;
+}
+
+.tipsList li {
+  margin-bottom: 8px;
+}
+
+.tipsList li:last-child {
+  margin-bottom: 0;
+}
+
+/* Verify Box */
+.verifyBox {
+  background: var(--surface-hover);
+  border-radius: 16px;
+  padding: 48px;
+  min-height: 200px;
+}
+
+.verifyIcon {
+  font-size: 48px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--surface-border);
+  border-top-color: #d97706;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Success Box */
+.successBox {
+  background: rgba(5, 150, 105, 0.08);
+  border: 1px solid rgba(5, 150, 105, 0.2);
+  border-radius: 16px;
+  padding: 48px;
+}
+
+.successIcon {
+  font-size: 64px;
+}
+
+/* Persona Config Card */
+.personaConfigCard {
+  background: var(--surface-bg);
+  border: 1px solid var(--surface-border);
+  border-left: 4px solid;
+  border-radius: 12px;
+  padding: 20px;
+  gap: 16px;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.personaConfigCard:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.personaConfigIcon {
+  font-size: 32px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-hover);
+  border-radius: 12px;
+}
+
+.pageTag {
+  display: inline-block;
+  background: var(--surface-hover);
+  color: var(--text-muted);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: 'Monaco', 'Menlo', monospace;
+}
+
+/* Complete Box */
+.completeBox {
+  padding: 48px;
+}
+
+.completeIcon {
+  font-size: 80px;
+}
+
+/* Next Steps Grid */
+.nextStepsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.nextStepCard {
+  background: var(--surface-bg);
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.2s ease;
+}
+
+.nextStepCard:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.nextStepIcon {
+  font-size: 28px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .wizard {
+    padding: 20px;
+  }
+
+  .stepContent {
+    padding: 24px;
+  }
+
+  .progressStep {
+    flex-direction: column;
+  }
+
+  .progressLine {
+    display: none;
+  }
+
+  .nextStepsGrid {
+    grid-template-columns: 1fr;
+  }
+}

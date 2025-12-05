@@ -1,4 +1,60 @@
+/* Convert Air - Anthropic-inspired Design System */
 html body {
-  --primary-color: #147af3;
+  --primary-color: #d97706;
   --primary-font-color: var(--light-color);
+
+  /* Brand colors */
+  --brand-amber: #d97706;
+  --brand-amber-light: #f59e0b;
+  --brand-teal: #0d9488;
+  --brand-teal-light: #14b8a6;
+
+  /* Semantic colors */
+  --success-color: #059669;
+  --warning-color: #f59e0b;
+  --error-color: #dc2626;
+
+  /* Persona colors */
+  --persona-value: #10b981;
+  --persona-solution: #3b82f6;
+  --persona-trust: #8b5cf6;
+  --persona-buyer: #ef4444;
+  --persona-explorer: #6b7280;
+}
+
+/* Light mode (default) */
+html[data-theme='light'] body,
+html:not([data-theme]) body {
+  --surface-bg: #ffffff;
+  --surface-hover: #f3f4f6;
+  --surface-border: #e5e7eb;
+  --surface-elevated: #ffffff;
+  --page-bg: #f9fafb;
+
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+  --text-on-primary: #ffffff;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode */
+html[data-theme='dark'] body {
+  --surface-bg: #1e293b;
+  --surface-hover: #334155;
+  --surface-border: #475569;
+  --surface-elevated: #0f172a;
+  --page-bg: #0f172a;
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-on-primary: #0f172a;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
 }
