@@ -42,4 +42,5 @@ export * from './getValues';
 export * from './getWebsiteDateRange';
 export * from './getWebsiteStats';
 export * from './getWeeklyTraffic';
+export * from './reports/getSignalFlow';
 export * from './persona';

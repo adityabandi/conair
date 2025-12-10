@@ -31,9 +31,9 @@ const schema = z.object({
   type: z.enum(['event', 'identify', 'personality', 'conversion']),
   payload: z
     .object({
-      website: z.uuid().optional(),
-      link: z.uuid().optional(),
-      pixel: z.uuid().optional(),
+      website: z.string().optional(),
+      link: z.string().optional(),
+      pixel: z.string().optional(),
       data: anyObjectParam.optional(),
       hostname: z.string().max(100).optional(),
       language: z.string().max(35).optional(),

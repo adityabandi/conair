@@ -1,18 +1,11 @@
 import { Key } from 'react';
 import Link from 'next/link';
-import {
-  Sidebar,
-  SidebarSection,
-  SidebarItem,
-  SidebarHeader,
-  Row,
-} from '@/components/ui';
-import { Globe, LinkIcon, Grid2x2, PanelLeft } from '@/components/icons';
+import { Sidebar, SidebarSection, SidebarItem, SidebarHeader, Row } from '@/components/ui';
+import { Globe, PanelLeft } from '@/components/icons';
 import { Logo } from '@/components/svg';
 import { useMessages, useNavigation, useGlobalState } from '@/components/hooks';
 import { NavButton } from '@/components/input/NavButton';
 import { PanelButton } from '@/components/input/PanelButton';
-import { LanguageButton } from '@/components/input/LanguageButton';
 
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 
@@ -22,27 +15,6 @@ export function SideNav(props: any) {
   const [isCollapsed, setIsCollapsed] = useGlobalState('sidenav-collapsed');
 
   const hasNav = !!(websiteId || pathname.startsWith('/admin') || pathname.includes('/settings'));
-
-  const links = [
-    {
-      id: 'websites',
-      label: formatMessage(labels.websites),
-      path: '/websites',
-      icon: <Globe />,
-    },
-    {
-      id: 'links',
-      label: formatMessage(labels.links),
-      path: '/links',
-      icon: <LinkIcon />,
-    },
-    {
-      id: 'pixels',
-      label: formatMessage(labels.pixels),
-      path: '/pixels',
-      icon: <Grid2x2 />,
-    },
-  ];
 
   const handleSelect = (id: Key) => {
     router.push(id === 'user' ? '/websites' : `/teams/${id}/websites`);
@@ -63,22 +35,17 @@ export function SideNav(props: any) {
         <NavButton showText={!hasNav && !isCollapsed} onAction={handleSelect} />
       </SidebarSection>
       <SidebarSection style={{ flexGrow: 1 }}>
-        {links.map(({ id, path, label, icon }) => {
-          return (
-            <Link key={id} href={renderUrl(path, false)} role="button">
-              <SidebarItem
-                label={label}
-                icon={icon}
-                isSelected={pathname.includes(path)}
-                role="button"
-              />
-            </Link>
-          );
-        })}
+        <Link href={renderUrl('/websites', false)} role="button">
+          <SidebarItem
+            label={formatMessage(labels.websites)}
+            icon={<Globe />}
+            isSelected={pathname.includes('/websites')}
+            role="button"
+          />
+        </Link>
       </SidebarSection>
       <SidebarSection style={{ justifyContent: 'flex-start' }}>
         <Row style={{ flexWrap: 'wrap' }}>
-          <LanguageButton />
           <ThemeToggle />
         </Row>
       </SidebarSection>

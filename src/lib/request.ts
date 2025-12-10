@@ -32,12 +32,27 @@ export async function parseRequest(
     }
   }
 
-  if (!options?.skipAuth && !error) {
+  // Skip auth if DISABLE_AUTH env is set or skipAuth option is passed
+  const authDisabled = process.env.DISABLE_AUTH === 'true';
+
+  if (!authDisabled && !options?.skipAuth && !error) {
     auth = await checkAuth(request);
 
     if (!auth) {
       error = () => unauthorized();
     }
+  }
+
+  // If auth is disabled, provide a mock auth object
+  if (authDisabled && !auth) {
+    auth = {
+      user: {
+        id: 'anonymous',
+        username: 'anonymous',
+        role: 'admin',
+        isAdmin: true,
+      },
+    };
   }
 
   return { url, query, body, auth, error };

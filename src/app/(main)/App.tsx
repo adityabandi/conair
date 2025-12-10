@@ -10,7 +10,7 @@ import { removeItem, setItem } from '@/lib/storage';
 import { LAST_TEAM_CONFIG } from '@/lib/constants';
 
 export function App({ children }) {
-  const { user, isLoading, error } = useLoginQuery();
+  const { user, isLoading } = useLoginQuery();
   const config = useConfig();
   const { pathname, teamId } = useNavigation();
 
@@ -26,12 +26,13 @@ export function App({ children }) {
     return <Loading placement="absolute" />;
   }
 
-  if (error) {
-    window.location.href = `${process.env.basePath || ''}/login`;
-    return null;
-  }
+  // Auth gate temporarily bypassed - app works without login
+  // if (error) {
+  //   window.location.href = `${process.env.basePath || ''}/login`;
+  //   return null;
+  // }
 
-  if (!user || !config) {
+  if (!config) {
     return null;
   }
 

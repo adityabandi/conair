@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Persona Intelligence Demo</title>
+    <script defer src="/script.js" data-website-id="b8c9d0e1-3f4a-5b6c-7d8e-9f0a1b2c3d4e"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,13 +20,17 @@
             --accent: #d97706;
             --accent-light: #fef3c7;
             --border: #e8e5e0;
-            --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
-            --shadow-lg: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.08);
             --radius: 16px;
             --radius-sm: 8px;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -35,7 +41,9 @@
         }
 
         /* Smooth scroll */
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+        }
 
         /* Container */
         .container {
@@ -90,8 +98,17 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.2);
+            }
         }
 
         .hero h1 {
@@ -419,7 +436,7 @@
             background: var(--text-primary);
             color: white;
             border-radius: var(--radius);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             z-index: 1000;
             font-size: 13px;
@@ -427,7 +444,7 @@
 
         .persona-panel-header {
             padding: 20px 24px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -487,14 +504,14 @@
         }
 
         .metric {
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             padding: 12px 16px;
             border-radius: 10px;
         }
 
         .metric .label {
             font-size: 11px;
-            color: rgba(255,255,255,0.5);
+            color: rgba(255, 255, 255, 0.5);
             margin-bottom: 4px;
         }
 
@@ -527,7 +544,7 @@
 
         .score-bar .bar-track {
             height: 6px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 3px;
             overflow: hidden;
         }
@@ -559,8 +576,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Scroll indicator */
@@ -578,8 +602,15 @@
         }
 
         @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(8px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(8px);
+            }
         }
 
         /* Reading progress */
@@ -594,6 +625,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Reading progress bar -->
     <div class="reading-progress" id="reading-progress"></div>
@@ -605,11 +637,12 @@
                 <span>Live Demo</span>
             </div>
             <h1 id="hero-headline">Understand your visitors.<br><span>Convert them better.</span></h1>
-            <p id="hero-subhead">AI-powered persona detection that learns from behavior in real-time. Show every visitor exactly what they need to see.</p>
+            <p id="hero-subhead">AI-powered persona detection that learns from behavior in real-time. Show every visitor
+                exactly what they need to see.</p>
             <a href="#features" class="hero-cta" id="hero-cta">
                 Explore Features
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                    <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
             </a>
         </div>
@@ -617,7 +650,7 @@
 
     <div class="scroll-indicator">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 5v14M5 12l7 7 7-7"/>
+            <path d="M12 5v14M5 12l7 7 7-7" />
         </svg>
         Scroll to explore — we're learning about you
     </div>
@@ -679,7 +712,8 @@
             </div>
             <div class="cards-grid">
                 <div class="testimonial-card">
-                    <p class="quote" id="testimonial-1">We saw a 34% lift in conversions within the first month. The persona detection is eerily accurate.</p>
+                    <p class="quote" id="testimonial-1">We saw a 34% lift in conversions within the first month. The
+                        persona detection is eerily accurate.</p>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar">SC</div>
                         <div class="testimonial-info">
@@ -689,7 +723,8 @@
                     </div>
                 </div>
                 <div class="testimonial-card">
-                    <p class="quote" id="testimonial-2">Finally, personalization that actually works. No more guessing what our visitors want.</p>
+                    <p class="quote" id="testimonial-2">Finally, personalization that actually works. No more guessing
+                        what our visitors want.</p>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar">MJ</div>
                         <div class="testimonial-info">
@@ -699,7 +734,8 @@
                     </div>
                 </div>
                 <div class="testimonial-card">
-                    <p class="quote" id="testimonial-3">Setup took 5 minutes. ROI was clear within a week. Best marketing investment we've made.</p>
+                    <p class="quote" id="testimonial-3">Setup took 5 minutes. ROI was clear within a week. Best
+                        marketing investment we've made.</p>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar">ED</div>
                         <div class="testimonial-info">
@@ -765,7 +801,7 @@
             <a href="#" class="hero-cta" id="final-cta-button">
                 Start Free Trial
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                    <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
             </a>
         </section>
@@ -1164,6 +1200,39 @@
         }
 
         // ========================================
+        // DATA SYNC
+        // ========================================
+
+        async function sendPersonaSignal() {
+            if (state.confidence < 10) return; // Send even low confidence for testing
+
+            try {
+                const payload = {
+                    type: 'personality',
+                    payload: {
+                        website: 'b8c9d0e1-3f4a-5b6c-7d8e-9f0a1b2c3d4e',
+                        data: {
+                            persona: state.persona,
+                            confidence: state.confidence,
+                            scores: state.scores,
+                            pageVisits: Array.from(state.sectionsViewed),
+                            sessionDuration: Math.round((Date.now() - state.startTime) / 1000)
+                        }
+                    }
+                };
+
+                await fetch('/api/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                console.log('Sent persona signal:', state.persona);
+            } catch (e) {
+                console.error('Failed to send persona signal', e);
+            }
+        }
+
+        // ========================================
         // INITIALIZATION
         // ========================================
 
@@ -1182,6 +1251,9 @@
             // Update UI periodically
             setInterval(updateUI, 1000);
 
+            // Sync data periodically
+            setInterval(sendPersonaSignal, 5000); // Every 5s
+
             // Initial update
             updateUI();
         }
@@ -1194,4 +1266,5 @@
         }
     </script>
 </body>
+
 </html>

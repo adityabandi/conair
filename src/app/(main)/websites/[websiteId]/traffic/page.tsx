@@ -1,12 +1,12 @@
-import { SignalOverview } from '@/components/persona/SignalOverview';
+import { WebsitePage } from '../WebsitePage';
 import { Metadata } from 'next';
 
 export default async function Page({ params }: { params: Promise<{ websiteId: string }> }) {
   const { websiteId } = await params;
 
-  return <SignalOverview websiteId={websiteId} />;
+  return <WebsitePage websiteId={websiteId} />;
 }
 
 export const metadata: Metadata = {
-  title: 'Signal Overview',
+  title: 'Traffic Overview',
 };
