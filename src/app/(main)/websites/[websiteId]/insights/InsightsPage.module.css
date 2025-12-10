@@ -1,0 +1,332 @@
+/* AI Insights Page */
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 40px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Summary Grid */
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.summaryCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 12px;
+  transition: all 200ms ease;
+}
+
+.summaryCard:hover {
+  border-color: var(--border-primary);
+  transform: translateY(-2px);
+}
+
+.summaryIcon {
+  font-size: 24px;
+}
+
+.summaryContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.summaryValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.summaryLabel {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-secondary);
+  overflow-x: auto;
+}
+
+.filterButton {
+  padding: 10px 18px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 150ms ease;
+  white-space: nowrap;
+}
+
+.filterButton:hover {
+  border-color: var(--border-primary);
+  color: var(--text-primary);
+}
+
+.filterActive {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--text-on-accent);
+}
+
+.filterActive:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--text-on-accent);
+}
+
+/* Insights List */
+.insightsList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Insight Card */
+.insightCard {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 200ms ease;
+}
+
+.insightCard:hover {
+  border-color: var(--border-primary);
+}
+
+.insightHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.insightIcon {
+  font-size: 20px;
+}
+
+.impactBadge {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.personaBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.confidenceBadge {
+  padding: 4px 10px;
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.timestamp {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.insightContent {
+  margin-bottom: 20px;
+}
+
+.insightTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 8px;
+}
+
+.insightDescription {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Metric Section */
+.metricSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.metricInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metricLabel {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+}
+
+.metricValue {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.metricChange {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Actions Section */
+.actionsSection {
+  display: flex;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-secondary);
+}
+
+.actionButton {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.actionPrimary {
+  background: var(--accent);
+  border: none;
+  color: var(--text-on-accent);
+}
+
+.actionPrimary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.actionSecondary {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+}
+
+.actionSecondary:hover {
+  background: var(--bg-hover);
+}
+
+/* Empty State */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 40px;
+  text-align: center;
+  background: var(--bg-secondary);
+  border: 1px dashed var(--border-primary);
+  border-radius: 16px;
+}
+
+.emptyIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.emptyTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 8px;
+}
+
+.emptyDescription {
+  max-width: 400px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .container {
+    padding: 20px;
+  }
+
+  .summaryGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .summaryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .metricSection {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .insightHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}

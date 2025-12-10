@@ -4,7 +4,7 @@ import { Globe, Grid2x2, LinkIcon } from '@/components/icons';
 import { MobileMenuButton } from '@/components/input/MobileMenuButton';
 import { NavButton } from '@/components/input/NavButton';
 import { Logo } from '@/components/svg';
-import { Grid, IconLabel, NavMenu, NavMenuItem, Row, Text } from '@umami/react-zen';
+import { Grid, IconLabel, NavMenu, NavMenuItem, Row, Text } from '@/components/zen';
 import Link from 'next/link';
 import { AdminNav } from './admin/AdminNav';
 import { SettingsNav } from './settings/SettingsNav';
@@ -63,7 +63,7 @@ export function MobileNav() {
       </MobileMenuButton>
       <Row alignItems="center" justifyContent="center" flexGrow={1}>
         <IconLabel icon={<Logo />} style={{ width: 'auto' }}>
-          <Text weight="bold">umami</Text>
+          <Text weight="bold">Signal</Text>
         </IconLabel>
       </Row>
     </Grid>

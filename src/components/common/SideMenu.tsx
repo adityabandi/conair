@@ -7,7 +7,7 @@ import {
   NavMenuGroup,
   NavMenuProps,
   IconLabel,
-} from '@umami/react-zen';
+} from '@/components/zen';
 import Link from 'next/link';
 
 interface SideMenuData {

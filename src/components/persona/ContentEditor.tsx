@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Row, Column, Text, Button } from '@umami/react-zen';
+import { Row, Column, Text, Button } from '@/components/zen';
 import styles from './ContentEditor.module.css';
 
 interface ContentVariant {

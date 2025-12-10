@@ -1,4 +1,4 @@
-import { Tabs, TabList, Tab, Icon, Text, Row } from '@umami/react-zen';
+import { Tabs, TabList, Tab, Icon, Text, Row } from '@/components/zen';
 import { useMessages, useNavigation, useWebsite } from '@/components/hooks';
 import { Clock, Eye, User, ChartPie, Sparkles } from '@/components/icons';
 import { Lightning } from '@/components/svg';

@@ -8,8 +8,8 @@ export const DASHBOARD_CONFIG = 'convertair.dashboard';
 export const LAST_TEAM_CONFIG = 'convertair.last-team';
 export const VERSION_CHECK = 'convertair.version-check';
 export const SHARE_TOKEN_HEADER = 'x-convertair-share-token';
-export const HOMEPAGE_URL = 'https://convertair.io';
-export const DOCS_URL = 'https://convertair.io/docs';
+export const HOMEPAGE_URL = 'https://signalconversions.com';
+export const DOCS_URL = 'https://signalconversions.com/docs';
 export const REPO_URL = 'https://github.com/convertair/convertair';
 export const UPDATES_URL = '';
 export const TELEMETRY_PIXEL = '';
@@ -211,7 +211,7 @@ export const ROLE_PERMISSIONS = {
 // Anthropic-inspired clean color palette
 export const THEME_COLORS = {
   light: {
-    primary: '#D97706', // Warm amber/orange - Convert Air brand
+    primary: '#D97706', // Warm amber/orange - Signal brand
     secondary: '#0D9488', // Teal accent
     success: '#059669', // Emerald green
     warning: '#F59E0B', // Amber

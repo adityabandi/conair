@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Row, Column, Text, Button, CopyButton } from '@umami/react-zen';
+import { Row, Column, Text, Button, CopyButton } from '@/components/zen';
 import styles from './SetupWizard.module.css';
 
 interface SetupWizardProps {
@@ -158,7 +158,7 @@ export function SetupWizard({ websiteId, domain }: SetupWizardProps) {
                 Configure persona detection
               </Text>
               <Text color="muted">
-                Customize how Convert Air identifies and classifies your visitors. You can always
+                Customize how Signal identifies and classifies your visitors. You can always
                 adjust these settings later.
               </Text>
             </Column>
@@ -214,7 +214,7 @@ export function SetupWizard({ websiteId, domain }: SetupWizardProps) {
                 You&apos;re All Set!
               </Text>
               <Text color="muted" style={{ textAlign: 'center', maxWidth: 400 }}>
-                Convert Air is now analyzing your visitors and will start showing persona insights
+                Signal is now analyzing your visitors and will start showing persona insights
                 within minutes.
               </Text>
             </Column>

@@ -5,7 +5,7 @@ import { Panel } from '@/components/common/Panel';
 import { useDateRange, useMessages } from '@/components/hooks';
 import { ListCheck } from '@/components/icons';
 import { DialogButton } from '@/components/input/DialogButton';
-import { Column, Row } from '@umami/react-zen';
+import { Column, Row } from '@/components/zen';
 import { useState } from 'react';
 import { Breakdown } from './Breakdown';
 

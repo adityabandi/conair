@@ -6,8 +6,8 @@ import '@fontsource/inter/400.css';
 import '@fontsource/inter/500.css';
 import '@fontsource/inter/700.css';
 import '@umami/react-zen/styles.css';
-import '@/styles/global.css';
 import '@/styles/variables.css';
+import '@/styles/global.css';
 
 export default function ({ children }) {
   if (process.env.DISABLE_UI) {
@@ -43,7 +43,7 @@ export default function ({ children }) {
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Convert Air',
-    default: 'Convert Air',
+    template: '%s | Signal',
+    default: 'Signal',
   },
 };

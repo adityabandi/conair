@@ -1,4 +1,4 @@
-import { Column } from '@umami/react-zen';
+import { Column } from '@/components/zen';
 import { useLoginQuery, useNavigation, useTeam } from '@/components/hooks';
 import { ROLES } from '@/lib/constants';
 import { Users } from '@/components/icons';

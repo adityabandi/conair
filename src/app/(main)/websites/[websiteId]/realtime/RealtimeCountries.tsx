@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { IconLabel } from '@umami/react-zen';
+import { IconLabel } from '@/components/zen';
 import { ListTable } from '@/components/metrics/ListTable';
 import { useLocale, useCountryNames, useMessages } from '@/components/hooks';
 import { TypeIcon } from '@/components/common/TypeIcon';

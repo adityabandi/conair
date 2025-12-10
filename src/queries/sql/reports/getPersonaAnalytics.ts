@@ -60,7 +60,7 @@ async function relationalQuery(
   const { rawQuery } = prisma;
 
   // Get persona distribution
-  const distribution = await rawQuery<PersonaDistribution[]>(
+  const distribution = (await rawQuery(
     `
     SELECT
       COALESCE(pp.persona, 'explorer') as persona,
@@ -86,12 +86,12 @@ async function relationalQuery(
     ORDER BY visitors DESC
     `,
     { websiteId, startDate, endDate },
-  );
+  )) as PersonaDistribution[];
 
   // Get trends over time
   const dateFormat =
     groupBy === 'month' ? 'YYYY-MM' : groupBy === 'week' ? 'IYYY-IW' : 'YYYY-MM-DD';
-  const trends = await rawQuery<PersonaTrend[]>(
+  const trends = (await rawQuery(
     `
     SELECT
       TO_CHAR(s.created_at, '${dateFormat}') as date,
@@ -109,7 +109,7 @@ async function relationalQuery(
     ORDER BY date
     `,
     { websiteId, startDate, endDate },
-  );
+  )) as PersonaTrend[];
 
   // Calculate summary
   const totalSessions = distribution.reduce((sum, d) => sum + Number(d.visitors), 0);

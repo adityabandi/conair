@@ -1,4 +1,4 @@
-import { useBreakpoint } from '@umami/react-zen';
+import { useBreakpoint } from '@/components/zen';
 
 export function useMobile() {
   const breakpoint = useBreakpoint();

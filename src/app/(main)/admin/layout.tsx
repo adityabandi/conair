@@ -11,7 +11,7 @@ export default function ({ children }) {
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Admin | Convert Air',
-    default: 'Admin | Convert Air',
+    template: '%s | Admin | Signal',
+    default: 'Admin | Signal',
   },
 };

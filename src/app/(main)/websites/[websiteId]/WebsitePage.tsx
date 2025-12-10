@@ -1,5 +1,5 @@
 'use client';
-import { Column } from '@umami/react-zen';
+import { Column } from '@/components/zen';
 import { Panel } from '@/components/common/Panel';
 import { WebsiteChart } from './WebsiteChart';
 import { WebsiteMetricsBar } from './WebsiteMetricsBar';

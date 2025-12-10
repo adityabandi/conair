@@ -49,9 +49,9 @@ export async function generateInsights(websiteId: string): Promise<InsightData[]
           description: insight.description,
           impact: insight.impact,
           confidence: insight.confidence,
-          metrics: insight.metrics,
+          metrics: insight.metrics as object,
           actionType: insight.actionType,
-          actionData: insight.actionData,
+          actionData: insight.actionData as object,
           expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Expires in 7 days
         },
       });

@@ -1,0 +1,13 @@
+.light {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.default { background: var(--text-tertiary); }
+.success { background: var(--success); }
+.warning { background: var(--warning); }
+.error { background: var(--error); }
+.info { background: var(--info); }

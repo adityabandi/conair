@@ -1,5 +1,5 @@
 'use client';
-import { Grid, Loading, Column, Row } from '@umami/react-zen';
+import { Grid, Loading, Column, Row } from '@/components/zen';
 import Script from 'next/script';
 import { UpdateNotice } from './UpdateNotice';
 import { SideNav } from '@/app/(main)/SideNav';

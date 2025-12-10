@@ -1,4 +1,4 @@
-import { Dialog, Modal, ModalProps, Column } from '@umami/react-zen';
+import { Dialog, Modal, ModalProps, Column } from '@/components/zen';
 import { SessionProfile } from '@/app/(main)/websites/[websiteId]/sessions/SessionProfile';
 import { useNavigation } from '@/components/hooks';
 

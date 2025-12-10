@@ -1,4 +1,4 @@
-import { Row, Column, Label } from '@umami/react-zen';
+import { Row, Column, Label } from '@/components/zen';
 import { useConfig, useLoginQuery, useMessages } from '@/components/hooks';
 import { ROLES } from '@/lib/constants';
 import { PasswordChangeButton } from './PasswordChangeButton';

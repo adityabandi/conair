@@ -1,4 +1,4 @@
-import { useToast } from '@umami/react-zen';
+import { useToast } from '@/components/zen';
 import { useApi } from '../useApi';
 import { useModified } from '../useModified';
 

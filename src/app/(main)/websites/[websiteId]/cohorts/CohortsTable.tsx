@@ -1,4 +1,4 @@
-import { DataTable, DataColumn, Row, DataTableProps } from '@umami/react-zen';
+import { DataTable, DataColumn, Row, DataTableProps } from '@/components/zen';
 import { useMessages, useNavigation } from '@/components/hooks';
 import { DateDistance } from '@/components/common/DateDistance';
 import { filtersObjectToArray } from '@/lib/params';

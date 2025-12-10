@@ -15,7 +15,7 @@ export default async function ({
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Convert Air',
-    default: 'Websites | Convert Air',
+    template: '%s | Signal',
+    default: 'Websites | Signal',
   },
 };

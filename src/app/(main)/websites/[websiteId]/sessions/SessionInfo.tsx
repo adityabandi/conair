@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Icon, Grid, Column, Row, Label } from '@umami/react-zen';
+import { Icon, Grid, Column, Row, Label } from '@/components/zen';
 import { useFormat, useLocale, useMessages, useRegionNames } from '@/components/hooks';
 import { TypeIcon } from '@/components/common/TypeIcon';
 import { KeyRound, Calendar, MapPin, Landmark } from '@/components/icons';

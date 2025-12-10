@@ -32,8 +32,17 @@ async function createUser() {
     ]);
 
     if (existing.rows.length > 0) {
+      // Update password for existing user
+      await client.query('UPDATE "user" SET password = $1 WHERE username = $2', [
+        hashedPassword,
+        username,
+      ]);
       // eslint-disable-next-line no-console
-      console.log(`User "${username}" already exists with id: ${existing.rows[0].user_id}`);
+      console.log(`✓ Password reset for existing user "${username}"`);
+      // eslint-disable-next-line no-console
+      console.log(`  ID: ${existing.rows[0].user_id}`);
+      // eslint-disable-next-line no-console
+      console.log(`  New password: ${password}`);
       return;
     }
 

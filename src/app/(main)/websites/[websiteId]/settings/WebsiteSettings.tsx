@@ -1,4 +1,4 @@
-import { Column } from '@umami/react-zen';
+import { Column } from '@/components/zen';
 import { useWebsite } from '@/components/hooks';
 import { WebsiteShareForm } from './WebsiteShareForm';
 import { WebsiteTrackingCode } from './WebsiteTrackingCode';

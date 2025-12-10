@@ -1,5 +1,5 @@
 import { useMessages, useModified } from '@/components/hooks';
-import { useToast } from '@umami/react-zen';
+import { useToast } from '@/components/zen';
 import { Plus } from '@/components/icons';
 import { WebsiteAddForm } from './WebsiteAddForm';
 import { DialogButton } from '@/components/input/DialogButton';

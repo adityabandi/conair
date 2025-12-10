@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { DataTable, DataColumn, Row, DataTableProps } from '@umami/react-zen';
+import { DataTable, DataColumn, Row, DataTableProps } from '@/components/zen';
 import { useMessages, useNavigation, useSlug } from '@/components/hooks';
 import { DateDistance } from '@/components/common/DateDistance';
 import { ExternalLink } from '@/components/common/ExternalLink';

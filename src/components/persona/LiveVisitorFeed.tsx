@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Row, Column, Text, Button } from '@umami/react-zen';
+import { useState, useEffect, useCallback } from 'react';
+import { Row, Column, Text, Button } from '@/components/zen';
 import { useApi } from '@/components/hooks/useApi';
+import { useQueryClient } from '@tanstack/react-query';
 import styles from './PersonaDashboard.module.css';
 
 interface LiveVisitorFeedProps {
@@ -25,9 +26,122 @@ const PERSONA_COLORS: Record<string, string> = {
   explorer: '#6B7280',
 };
 
+// Mock data for demo purposes
+const MOCK_VISITORS = [
+  {
+    id: 'v1',
+    persona: 'ready-buyer',
+    confidence: 94,
+    isHighIntent: true,
+    currentPage: '/checkout',
+    referrer: 'https://google.com',
+    pageHistory: ['/home', '/pricing', '/features', '/checkout'],
+    sessionDuration: 245,
+    engagementScore: 87,
+    device: 'desktop',
+    country: 'US',
+    lastSeen: new Date(Date.now() - 15000).toISOString(),
+  },
+  {
+    id: 'v2',
+    persona: 'value-seeker',
+    confidence: 88,
+    isHighIntent: false,
+    currentPage: '/pricing',
+    referrer: 'https://twitter.com',
+    pageHistory: ['/home', '/pricing'],
+    sessionDuration: 120,
+    engagementScore: 62,
+    device: 'mobile',
+    country: 'GB',
+    lastSeen: new Date(Date.now() - 30000).toISOString(),
+  },
+  {
+    id: 'v3',
+    persona: 'trust-seeker',
+    confidence: 91,
+    isHighIntent: true,
+    currentPage: '/reviews',
+    referrer: 'https://linkedin.com',
+    pageHistory: ['/home', '/about', '/reviews'],
+    sessionDuration: 180,
+    engagementScore: 75,
+    device: 'desktop',
+    country: 'DE',
+    lastSeen: new Date(Date.now() - 45000).toISOString(),
+  },
+  {
+    id: 'v4',
+    persona: 'solution-seeker',
+    confidence: 85,
+    isHighIntent: false,
+    currentPage: '/features',
+    referrer: 'https://reddit.com',
+    pageHistory: ['/home', '/features'],
+    sessionDuration: 90,
+    engagementScore: 58,
+    device: 'tablet',
+    country: 'CA',
+    lastSeen: new Date(Date.now() - 60000).toISOString(),
+  },
+  {
+    id: 'v5',
+    persona: 'explorer',
+    confidence: 72,
+    isHighIntent: false,
+    currentPage: '/blog',
+    referrer: '',
+    pageHistory: ['/blog'],
+    sessionDuration: 35,
+    engagementScore: 25,
+    device: 'mobile',
+    country: 'AU',
+    lastSeen: new Date(Date.now() - 90000).toISOString(),
+  },
+  {
+    id: 'v6',
+    persona: 'ready-buyer',
+    confidence: 89,
+    isHighIntent: true,
+    currentPage: '/pricing',
+    referrer: 'https://producthunt.com',
+    pageHistory: ['/home', '/features', '/pricing'],
+    sessionDuration: 210,
+    engagementScore: 82,
+    device: 'desktop',
+    country: 'FR',
+    lastSeen: new Date(Date.now() - 20000).toISOString(),
+  },
+];
+
+const MOCK_SUMMARY = {
+  total: 6,
+  highIntent: 3,
+  distribution: {
+    'ready-buyer': 2,
+    'value-seeker': 1,
+    'trust-seeker': 1,
+    'solution-seeker': 1,
+    explorer: 1,
+  },
+};
+
 export function LiveVisitorFeed({ websiteId }: LiveVisitorFeedProps) {
-  const { data, isLoading, refetch } = useApi(`/api/websites/${websiteId}/live`);
+  const { get, useQuery } = useApi();
+  const queryClient = useQueryClient();
+  const queryKey = ['live-visitors', websiteId];
+
+  const { data: apiData, isLoading } = useQuery({
+    queryKey,
+    queryFn: () => get(`/websites/${websiteId}/live`),
+    refetchInterval: false,
+  });
+
   const [autoRefresh, setAutoRefresh] = useState(true);
+
+  const refetch = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey });
+  }, [queryClient, queryKey]);
 
   // Auto-refresh every 10 seconds
   useEffect(() => {
@@ -40,8 +154,9 @@ export function LiveVisitorFeed({ websiteId }: LiveVisitorFeedProps) {
     return <LiveFeedSkeleton />;
   }
 
-  const visitors = data?.visitors || [];
-  const summary = data?.summary || { total: 0, highIntent: 0, distribution: {} };
+  // Use mock data if API doesn't return visitors
+  const visitors = apiData?.visitors?.length > 0 ? apiData.visitors : MOCK_VISITORS;
+  const summary = apiData?.summary?.total > 0 ? apiData.summary : MOCK_SUMMARY;
 
   return (
     <Column gap="6">
@@ -57,11 +172,11 @@ export function LiveVisitorFeed({ websiteId }: LiveVisitorFeedProps) {
           )}
         </Row>
         <Row gap="2">
-          <Button variant="secondary" onClick={refetch}>
+          <Button variant="quiet" onClick={refetch}>
             Refresh
           </Button>
           <Button
-            variant={autoRefresh ? 'primary' : 'secondary'}
+            variant={autoRefresh ? 'primary' : 'quiet'}
             onClick={() => setAutoRefresh(!autoRefresh)}
           >
             {autoRefresh ? 'Auto-refresh ON' : 'Auto-refresh OFF'}

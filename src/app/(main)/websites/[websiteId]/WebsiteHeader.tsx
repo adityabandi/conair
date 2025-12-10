@@ -1,4 +1,4 @@
-import { Icon, Text, Row } from '@umami/react-zen';
+import { Icon, Text, Row } from '@/components/zen';
 import { PageHeader } from '@/components/common/PageHeader';
 import { Share, Edit } from '@/components/icons';
 import { Favicon } from '@/components/common/Favicon';

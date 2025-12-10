@@ -10,7 +10,7 @@ import {
   Column,
   Icon,
   Loading,
-} from '@umami/react-zen';
+} from '@/components/zen';
 import { useConfig, useLinkQuery } from '@/components/hooks';
 import { useMessages } from '@/components/hooks';
 import { RefreshCw } from '@/components/icons';

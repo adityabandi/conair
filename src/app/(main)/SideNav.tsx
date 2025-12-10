@@ -6,9 +6,7 @@ import {
   SidebarItem,
   SidebarHeader,
   Row,
-  SidebarProps,
-  ThemeButton,
-} from '@umami/react-zen';
+} from '@/components/ui';
 import { Globe, LinkIcon, Grid2x2, PanelLeft } from '@/components/icons';
 import { Logo } from '@/components/svg';
 import { useMessages, useNavigation, useGlobalState } from '@/components/hooks';
@@ -16,7 +14,9 @@ import { NavButton } from '@/components/input/NavButton';
 import { PanelButton } from '@/components/input/PanelButton';
 import { LanguageButton } from '@/components/input/LanguageButton';
 
-export function SideNav(props: SidebarProps) {
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
+
+export function SideNav(props: any) {
   const { formatMessage, labels } = useMessages();
   const { pathname, renderUrl, websiteId, router } = useNavigation();
   const [isCollapsed, setIsCollapsed] = useGlobalState('sidenav-collapsed');
@@ -49,20 +49,20 @@ export function SideNav(props: SidebarProps) {
   };
 
   return (
-    <Sidebar {...props} isCollapsed={isCollapsed || hasNav} backgroundColor>
+    <Sidebar {...props} isCollapsed={isCollapsed || hasNav}>
       <SidebarSection onClick={() => setIsCollapsed(false)}>
         <SidebarHeader
-          label="Convert Air"
+          label="Signal"
           icon={isCollapsed && !hasNav ? <PanelLeft /> : <Logo />}
           style={{ maxHeight: 40 }}
         >
           {!isCollapsed && !hasNav && <PanelButton />}
         </SidebarHeader>
       </SidebarSection>
-      <SidebarSection paddingTop="0" paddingBottom="0" justifyContent="center">
+      <SidebarSection style={{ paddingTop: 0, paddingBottom: 0, justifyContent: 'center' }}>
         <NavButton showText={!hasNav && !isCollapsed} onAction={handleSelect} />
       </SidebarSection>
-      <SidebarSection flexGrow={1}>
+      <SidebarSection style={{ flexGrow: 1 }}>
         {links.map(({ id, path, label, icon }) => {
           return (
             <Link key={id} href={renderUrl(path, false)} role="button">
@@ -76,10 +76,10 @@ export function SideNav(props: SidebarProps) {
           );
         })}
       </SidebarSection>
-      <SidebarSection justifyContent="flex-start">
-        <Row wrap="wrap">
+      <SidebarSection style={{ justifyContent: 'flex-start' }}>
+        <Row style={{ flexWrap: 'wrap' }}>
           <LanguageButton />
-          <ThemeButton />
+          <ThemeToggle />
         </Row>
       </SidebarSection>
     </Sidebar>

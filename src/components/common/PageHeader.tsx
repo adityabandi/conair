@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Heading, Icon, Row, Text, Column, Grid } from '@umami/react-zen';
+import { Heading, Icon, Row, Text, Column, Grid } from '@/components/zen';
 
 export function PageHeader({
   title,

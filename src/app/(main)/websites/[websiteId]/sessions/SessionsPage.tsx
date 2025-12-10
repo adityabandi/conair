@@ -1,6 +1,6 @@
 'use client';
 import { Key, useState } from 'react';
-import { TabList, Tab, Tabs, TabPanel, Column } from '@umami/react-zen';
+import { TabList, Tab, Tabs, TabPanel, Column } from '@/components/zen';
 import { SessionsDataTable } from './SessionsDataTable';
 import { SessionProperties } from './SessionProperties';
 import { useMessages } from '@/components/hooks';

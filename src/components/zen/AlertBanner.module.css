@@ -1,0 +1,44 @@
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+}
+
+.success {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.warning {
+  background: var(--warning-bg);
+  color: var(--warning);
+}
+
+.error {
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+.info {
+  background: var(--info-bg);
+  color: var(--info);
+}
+
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.close:hover {
+  opacity: 1;
+}

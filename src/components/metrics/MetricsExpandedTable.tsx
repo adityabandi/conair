@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { Button, Column, DataColumn, DataTable, Icon, Row, SearchField } from '@umami/react-zen';
+import { Button, Column, DataColumn, DataTable, Icon, Row, SearchField } from '@/components/zen';
 import { LoadingPanel } from '@/components/common/LoadingPanel';
 import { useMessages, useWebsiteExpandedMetricsQuery } from '@/components/hooks';
 import { X } from '@/components/icons';

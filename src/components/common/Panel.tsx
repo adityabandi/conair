@@ -8,7 +8,7 @@ import {
   TooltipTrigger,
   Tooltip,
   Heading,
-} from '@umami/react-zen';
+} from '@/components/zen';
 import { Maximize, X } from '@/components/icons';
 import { useMessages } from '@/components/hooks';
 

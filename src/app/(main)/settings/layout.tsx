@@ -2,16 +2,12 @@ import { Metadata } from 'next';
 import { SettingsLayout } from './SettingsLayout';
 
 export default function ({ children }) {
-  if (process.env.cloudMode) {
-    //return null;
-  }
-
   return <SettingsLayout>{children}</SettingsLayout>;
 }
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Settings | Convert Air',
-    default: 'Settings | Convert Air',
+    template: '%s | Settings | Signal',
+    default: 'Settings | Signal',
   },
 };

@@ -33,7 +33,7 @@ export async function saveConversionEvent(data: ConversionEventData) {
         sessionId,
         eventType,
         eventValue: eventValue ? eventValue : null,
-        eventData,
+        eventData: eventData as object,
         persona,
         confidence,
         pagesBefore,

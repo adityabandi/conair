@@ -12,7 +12,7 @@ import {
   Column,
   Pressable,
   IconLabel,
-} from '@umami/react-zen';
+} from '@/components/zen';
 import {
   useConfig,
   useLoginQuery,

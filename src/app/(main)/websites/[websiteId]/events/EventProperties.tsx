@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Select, ListItem, Grid, Column } from '@umami/react-zen';
+import { Select, ListItem, Grid, Column } from '@/components/zen';
 import {
   useEventDataPropertiesQuery,
   useEventDataValuesQuery,

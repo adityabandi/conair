@@ -1,21 +1,11 @@
-'use client';
-import { useEffect } from 'react';
-import { redirect } from 'next/navigation';
-import { getItem, removeItem } from '@/lib/storage';
-import { LAST_TEAM_CONFIG } from '@/lib/constants';
+import { LandingPage } from './landing/LandingPage';
+import { Metadata } from 'next';
 
 export default function RootPage() {
-  useEffect(() => {
-    const lastTeam = getItem(LAST_TEAM_CONFIG);
-
-    if (lastTeam) {
-      redirect(`/teams/${lastTeam}/websites`);
-    } else {
-      removeItem(LAST_TEAM_CONFIG);
-
-      redirect(`/websites`);
-    }
-  }, []);
-
-  return null;
+  return <LandingPage />;
 }
+
+export const metadata: Metadata = {
+  title: 'Signal Conversions - Decode Visitor Intent & Convert with Precision',
+  description: 'Capture 30+ behavioral signals to identify buyer personas in real-time. Understand who\'s browsing, what they need, and convert them—without cookies.',
+};

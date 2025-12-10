@@ -4,7 +4,7 @@ import { useDateRange, useMessages, useNavigation } from '@/components/hooks';
 import { ChangeLabel } from '@/components/metrics/ChangeLabel';
 import { MetricsTable } from '@/components/metrics/MetricsTable';
 import { formatNumber } from '@/lib/format';
-import { Column, Grid, Heading, ListItem, Row, Select } from '@umami/react-zen';
+import { Column, Grid, Heading, ListItem, Row, Select } from '@/components/zen';
 import { useState } from 'react';
 
 export function CompareTables({ websiteId }: { websiteId: string }) {

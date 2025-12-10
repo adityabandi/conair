@@ -1,5 +1,5 @@
 'use client';
-import { Column } from '@umami/react-zen';
+import { Column } from '@/components/zen';
 import { useMessages } from '@/components/hooks';
 import { Panel } from '@/components/common/Panel';
 import { PreferenceSettings } from './PreferenceSettings';

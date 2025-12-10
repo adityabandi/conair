@@ -481,7 +481,7 @@ export const messages = defineMessages({
   },
   newVersionAvailable: {
     id: 'message.new-version-available',
-    defaultMessage: 'A new version of Convert Air {version} is available!',
+    defaultMessage: 'A new version of Signal {version} is available!',
   },
   transferWebsite: {
     id: 'message.transfer-website',

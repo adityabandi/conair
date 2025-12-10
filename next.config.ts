@@ -180,6 +180,9 @@ export default {
   typescript: {
     ignoreBuildErrors: true,
   },
+  turbopack: {
+    root: process.cwd(),
+  },
   async headers() {
     return headers;
   },

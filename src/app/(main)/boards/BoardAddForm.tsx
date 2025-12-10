@@ -1,4 +1,4 @@
-import { Form, FormField, FormSubmitButton, Row, TextField, Button } from '@umami/react-zen';
+import { Form, FormField, FormSubmitButton, Row, TextField, Button } from '@/components/zen';
 import { useUpdateQuery, useMessages } from '@/components/hooks';
 import { DOMAIN_REGEX } from '@/lib/constants';
 

@@ -2,7 +2,7 @@
 import { WebsiteProvider } from '@/app/(main)/websites/WebsiteProvider';
 import { WebsiteSettings } from '@/app/(main)/websites/[websiteId]/settings/WebsiteSettings';
 import { WebsiteSettingsHeader } from '@/app/(main)/websites/[websiteId]/settings/WebsiteSettingsHeader';
-import { Column } from '@umami/react-zen';
+import { Column } from '@/components/zen';
 
 export function WebsiteSettingsPage({ websiteId }: { websiteId: string }) {
   return (

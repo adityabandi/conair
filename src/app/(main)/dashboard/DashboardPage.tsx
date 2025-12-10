@@ -1,5 +1,5 @@
 'use client';
-import { Column } from '@umami/react-zen';
+import { Column } from '@/components/zen';
 import { PageHeader } from '@/components/common/PageHeader';
 import { useMessages } from '@/components/hooks';
 import { PageBody } from '@/components/common/PageBody';

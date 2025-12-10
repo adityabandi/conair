@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { FixedSizeList } from 'react-window';
-import { SearchField, Text, Column, Row, IconLabel, Heading } from '@umami/react-zen';
+import { SearchField, Text, Column, Row, IconLabel, Heading } from '@/components/zen';
 import Link from 'next/link';
 import { useFormat } from '@/components//hooks/useFormat';
 import { Empty } from '@/components/common/Empty';

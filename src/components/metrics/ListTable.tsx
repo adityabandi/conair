@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { FixedSizeList } from 'react-window';
 import { useSpring, config } from '@react-spring/web';
-import { Grid, Row, Column, Text } from '@umami/react-zen';
+import { Grid, Row, Column, Text } from '@/components/zen';
 import { AnimatedDiv } from '@/components/common/AnimatedDiv';
 import { Empty } from '@/components/common/Empty';
 import { useMessages, useMobile } from '@/components/hooks';

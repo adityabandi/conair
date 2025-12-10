@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Icon, DataTable, DataColumn, DataTableProps } from '@umami/react-zen';
+import { Icon, DataTable, DataColumn, DataTableProps } from '@/components/zen';
 import { LinkButton } from '@/components/common/LinkButton';
 import { useMessages, useNavigation } from '@/components/hooks';
 import { SquarePen } from '@/components/icons';

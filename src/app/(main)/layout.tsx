@@ -12,7 +12,7 @@ export default function ({ children }) {
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Convert Air',
-    default: 'Convert Air',
+    template: '%s | Signal',
+    default: 'Signal',
   },
 };

@@ -1,5 +1,5 @@
 import { createContext, ReactNode } from 'react';
-import { Loading } from '@umami/react-zen';
+import { Loading } from '@/components/zen';
 import { User } from '@/generated/prisma/client';
 import { useUserQuery } from '@/components/hooks/queries/useUserQuery';
 

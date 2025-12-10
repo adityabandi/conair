@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { Icon, Text, Row, Grid } from '@umami/react-zen';
+import { Icon, Text, Row, Grid } from '@/components/zen';
 import { LinkButton } from '@/components/common/LinkButton';
 import { LoadingPanel } from '@/components/common/LoadingPanel';
 import { useMessages, useNavigation, useWebsiteMetricsQuery } from '@/components/hooks';

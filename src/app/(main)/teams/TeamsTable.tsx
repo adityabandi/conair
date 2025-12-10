@@ -1,4 +1,4 @@
-import { DataColumn, DataTable, DataTableProps } from '@umami/react-zen';
+import { DataColumn, DataTable, DataTableProps } from '@/components/zen';
 import { useMessages } from '@/components/hooks';
 import { ROLES } from '@/lib/constants';
 import { ReactNode } from 'react';

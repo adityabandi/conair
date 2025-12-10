@@ -7,7 +7,7 @@ import {
   Button,
   IconLabel,
   Row,
-} from '@umami/react-zen';
+} from '@/components/zen';
 import { getRandomChars } from '@/lib/generate';
 import { useMessages, useTeam, useUpdateQuery } from '@/components/hooks';
 import { RefreshCw } from '@/components/icons';

@@ -12,7 +12,7 @@ import {
   Row,
   Loading,
   Column,
-} from '@umami/react-zen';
+} from '@/components/zen';
 import { useMessages, useReportQuery, useUpdateQuery } from '@/components/hooks';
 import { X, Plus } from '@/components/icons';
 import { ActionSelect } from '@/components/input/ActionSelect';

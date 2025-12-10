@@ -1,4 +1,4 @@
-import { Dialog, Modal } from '@umami/react-zen';
+import { Dialog, Modal } from '@/components/zen';
 import { WebsiteExpandedView } from '@/app/(main)/websites/[websiteId]/WebsiteExpandedView';
 import { useNavigation, useMobile } from '@/components/hooks';
 

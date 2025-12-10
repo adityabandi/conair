@@ -1,0 +1,15 @@
+.heading {
+  font-family: var(--font-family);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.h1 { font-size: var(--text-4xl); font-weight: 700; letter-spacing: var(--tracking-tighter); }
+.h2 { font-size: var(--text-3xl); }
+.h3 { font-size: var(--text-2xl); }
+.h4 { font-size: var(--text-xl); }
+.h5 { font-size: var(--text-lg); font-weight: 500; }
+.h6 { font-size: var(--text-base); font-weight: 500; }

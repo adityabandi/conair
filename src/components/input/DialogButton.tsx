@@ -7,7 +7,7 @@ import {
   DialogTrigger,
   DialogProps,
   IconLabel,
-} from '@umami/react-zen';
+} from '@/components/zen';
 import { useMobile } from '@/components/hooks';
 
 export interface DialogButtonProps extends Omit<ButtonProps, 'children'> {

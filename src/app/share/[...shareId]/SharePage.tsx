@@ -1,5 +1,5 @@
 'use client';
-import { Column } from '@umami/react-zen';
+import { Column } from '@/components/zen';
 import { WebsiteProvider } from '@/app/(main)/websites/WebsiteProvider';
 import { WebsitePage } from '@/app/(main)/websites/[websiteId]/WebsitePage';
 import { useShareTokenQuery } from '@/components/hooks';

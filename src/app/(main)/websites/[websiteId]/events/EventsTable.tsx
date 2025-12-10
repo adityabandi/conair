@@ -10,7 +10,7 @@ import {
   DialogTrigger,
   Icon,
   Popover,
-} from '@umami/react-zen';
+} from '@/components/zen';
 import { useFormat, useMessages, useNavigation } from '@/components/hooks';
 import { Avatar } from '@/components/common/Avatar';
 import Link from 'next/link';

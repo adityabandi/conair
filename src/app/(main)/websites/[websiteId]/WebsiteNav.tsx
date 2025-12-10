@@ -1,4 +1,4 @@
-import { Text, Column } from '@umami/react-zen';
+import { Text, Column } from '@/components/zen';
 import {
   Eye,
   User,
@@ -8,6 +8,10 @@ import {
   ChartPie,
   UserPlus,
   AlignEndHorizontal,
+  Sparkles,
+  FlaskConical,
+  Activity,
+  Lightbulb,
 } from '@/components/icons';
 import { Lightning, Path, Money, Target, Funnel, Magnet, Network } from '@/components/svg';
 import { useMessages, useNavigation } from '@/components/hooks';
@@ -139,6 +143,35 @@ export function WebsiteNav({
           label: formatMessage(labels.attribution),
           icon: <Network />,
           path: renderPath('/attribution'),
+        },
+      ],
+    },
+    {
+      label: 'Persona Intelligence',
+      items: [
+        {
+          id: 'persona',
+          label: 'Personas',
+          icon: <Sparkles />,
+          path: renderPath('/persona'),
+        },
+        {
+          id: 'experiments',
+          label: 'Experiments',
+          icon: <FlaskConical />,
+          path: renderPath('/experiments'),
+        },
+        {
+          id: 'live',
+          label: 'Live Feed',
+          icon: <Activity />,
+          path: renderPath('/live'),
+        },
+        {
+          id: 'insights',
+          label: 'Insights',
+          icon: <Lightbulb />,
+          path: renderPath('/insights'),
         },
       ],
     },

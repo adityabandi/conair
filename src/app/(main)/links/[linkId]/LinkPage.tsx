@@ -7,7 +7,7 @@ import { WebsiteChart } from '@/app/(main)/websites/[websiteId]/WebsiteChart';
 import { LinkMetricsBar } from '@/app/(main)/links/[linkId]/LinkMetricsBar';
 import { LinkControls } from '@/app/(main)/links/[linkId]/LinkControls';
 import { LinkPanels } from '@/app/(main)/links/[linkId]/LinkPanels';
-import { Column, Grid } from '@umami/react-zen';
+import { Column, Grid } from '@/components/zen';
 import { ExpandedViewModal } from '@/app/(main)/websites/[websiteId]/ExpandedViewModal';
 
 const excludedIds = ['path', 'entry', 'exit', 'title', 'language', 'screen', 'event'];

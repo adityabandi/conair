@@ -8,7 +8,7 @@ import {
   MenuItem,
   MenuSeparator,
   MenuSection,
-} from '@umami/react-zen';
+} from '@/components/zen';
 import { useMessages, useLoginQuery, useNavigation, useConfig } from '@/components/hooks';
 import {
   LogOut,

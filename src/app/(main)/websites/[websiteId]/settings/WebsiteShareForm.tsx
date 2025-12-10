@@ -9,7 +9,7 @@ import {
   Label,
   Row,
   IconLabel,
-} from '@umami/react-zen';
+} from '@/components/zen';
 import { useState } from 'react';
 import { getRandomChars } from '@/lib/generate';
 import { useMessages, useUpdateQuery, useConfig } from '@/components/hooks';

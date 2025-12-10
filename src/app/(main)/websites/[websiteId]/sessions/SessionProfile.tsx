@@ -8,7 +8,7 @@ import {
   TabPanel,
   Button,
   Icon,
-} from '@umami/react-zen';
+} from '@/components/zen';
 import { Avatar } from '@/components/common/Avatar';
 import { LoadingPanel } from '@/components/common/LoadingPanel';
 import { useMessages, useWebsiteSessionQuery } from '@/components/hooks';

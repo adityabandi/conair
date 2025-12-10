@@ -1,227 +1,244 @@
-/* Convert Air - Anthropic-Inspired Persona Dashboard */
+/* Signal — Persona Dashboard */
 
 .dashboard {
-  padding: 32px;
-  max-width: 1440px;
+  padding: 32px 40px;
+  max-width: 1280px;
   margin: 0 auto;
-  min-height: 100vh;
 }
 
-.card {
-  background: var(--surface-bg);
-  border: 1px solid var(--surface-border);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: var(--shadow-sm);
-  transition:
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
+.dashboardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-secondary);
 }
 
-.card:hover {
-  box-shadow: var(--shadow-md);
-}
-
-.summaryCard {
-  background: var(--surface-bg);
-  border: 1px solid var(--surface-border);
-  border-radius: 16px;
-  padding: 24px;
-  min-width: 200px;
-  flex: 1;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.2s ease;
-}
-
-.summaryCard:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-
-.personaCard {
-  background: var(--surface-bg);
-  border: 1px solid var(--surface-border);
-  border-radius: 16px;
-  padding: 24px;
-  min-width: 260px;
-  flex: 1;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.personaCard:hover {
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-4px);
-}
-
-.personaIcon {
+.headerIcon {
   font-size: 32px;
   width: 56px;
   height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--surface-hover);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
   border-radius: 14px;
-  transition: transform 0.2s ease;
 }
 
-.personaCard:hover .personaIcon {
-  transform: scale(1.05);
+.tabsContainer {
+  display: flex;
+  gap: 8px;
+  padding: 4px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 12px;
 }
 
-.progressBar {
-  height: 6px;
-  background: var(--surface-hover);
-  border-radius: 3px;
-  overflow: hidden;
-  margin-top: 16px;
-}
-
-.progressFill {
-  height: 100%;
-  border-radius: 3px;
-  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.insightBadge {
-  display: inline-flex;
+.tab {
+  display: flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 20px;
-  border: 2px solid;
-  border-radius: 12px;
-  background: var(--surface-bg);
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.insightBadge:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.insightCount {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  color: white;
-  font-weight: 700;
-  font-size: 14px;
-}
-
-.liveDot {
-  width: 12px;
-  height: 12px;
-  background: var(--success-color);
-  border-radius: 50%;
-  position: relative;
-}
-
-.liveDot::after {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border: 2px solid var(--success-color);
-  border-radius: 50%;
-  animation: liveRing 2s ease-out infinite;
-}
-
-@keyframes liveRing {
-  0% {
-    transform: scale(0.8);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1.5);
-    opacity: 0;
-  }
-}
-
-.highIntentBadge {
-  background: linear-gradient(135deg, #ef4444, #f59e0b);
-  color: white;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
-}
-
-.visitorStream {
-  max-height: 640px;
-  overflow-y: auto;
-  padding-right: 8px;
-}
-
-.visitorStream::-webkit-scrollbar {
-  width: 6px;
-}
-
-.visitorStream::-webkit-scrollbar-track {
+  padding: 10px 18px;
   background: transparent;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 150ms ease;
 }
 
-.visitorStream::-webkit-scrollbar-thumb {
-  background: var(--surface-border);
-  border-radius: 3px;
+.tab:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
 }
 
-.visitorCard {
-  background: var(--surface-bg);
-  border: 1px solid var(--surface-border);
-  border-left: 4px solid;
+.tabActive {
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.tabIcon {
+  font-size: 16px;
+}
+
+.dashboardContent {
+  min-height: 400px;
+}
+
+.card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-secondary);
   border-radius: 12px;
-  padding: 16px;
-  transition: all 0.2s ease;
+  padding: 24px;
 }
 
-.visitorCard:hover {
-  background: var(--surface-hover);
-  box-shadow: var(--shadow-sm);
+.summaryCard {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 12px;
+  padding: 24px;
+  min-width: 180px;
+  flex: 1;
+  transition: border-color 150ms ease;
 }
 
-.visitorIcon {
+.summaryCard:hover {
+  border-color: var(--border-primary);
+}
+
+.personaCard {
+  position: relative;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 12px;
+  padding: 24px;
+  min-width: 240px;
+  flex: 1;
+  transition: all 200ms ease;
+}
+
+.personaCard:hover {
+  border-color: var(--border-primary);
+  transform: translateY(-2px);
+}
+
+.personaIcon {
   font-size: 24px;
   width: 44px;
   height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--surface-hover);
-  border-radius: 12px;
+  background: var(--bg-tertiary);
+  border-radius: 8px;
 }
 
-.confidenceBadge {
-  font-size: 12px;
-  color: var(--text-muted);
-  background: var(--surface-hover);
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-weight: 500;
+.progressBar {
+  height: 3px;
+  background: var(--bg-tertiary);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 16px;
 }
 
-.intentBadge {
-  font-size: 12px;
-  color: white;
-  background: #ef4444;
-  padding: 4px 10px;
-  border-radius: 6px;
+.progressFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 300ms ease;
+}
+
+.insightBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 1px solid var(--border-secondary);
+  border-radius: 8px;
+  background: var(--bg-primary);
+  transition: all 150ms ease;
+  cursor: pointer;
+}
+
+.insightBadge:hover {
+  border-color: var(--border-primary);
+  background: var(--bg-hover);
+}
+
+.insightCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 4px;
+  font-size: 11px;
   font-weight: 600;
 }
 
-.journeyStep {
-  font-size: 12px;
-  color: var(--text-muted);
-  background: var(--surface-hover);
+.liveDot {
+  width: 8px;
+  height: 8px;
+  background: #16a34a;
+  border-radius: 999px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.highIntentBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   padding: 4px 8px;
+  background: rgba(220, 38, 38, 0.08);
+  color: #dc2626;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.visitorStream {
+  max-height: 560px;
+  overflow-y: auto;
+}
+
+.visitorCard {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-secondary);
+  transition: background 150ms ease;
+}
+
+.visitorCard:last-child {
+  border-bottom: none;
+}
+
+.visitorCard:hover {
+  background: var(--bg-hover);
+}
+
+.visitorIcon {
+  font-size: 20px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-tertiary);
   border-radius: 6px;
+}
+
+.confidenceBadge {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  padding: 2px 6px;
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+}
+
+.intentBadge {
+  font-size: 11px;
+  font-weight: 500;
+  color: #dc2626;
+  padding: 2px 6px;
+  background: rgba(220, 38, 38, 0.08);
+  border-radius: 4px;
+}
+
+.journeyStep {
+  font-size: 11px;
+  font-family: monospace;
+  color: var(--text-tertiary);
+  padding: 2px 6px;
+  background: var(--bg-tertiary);
+  border-radius: 4px;
   max-width: 80px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -229,160 +246,252 @@
 }
 
 .engagementRing {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-}
-
-.engagementRing::before {
-  content: '';
-  position: absolute;
-  inset: 5px;
-  background: var(--surface-bg);
-  border-radius: 50%;
+  border: 2px solid var(--border-primary);
 }
 
 .engagementValue {
-  position: relative;
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 600;
   color: var(--text-primary);
 }
 
 .deviceIcon {
-  font-size: 16px;
-  color: var(--text-muted);
+  font-size: 14px;
+  color: var(--text-tertiary);
 }
 
 .countryFlag {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .insightCard {
-  background: var(--surface-bg);
-  border: 1px solid var(--surface-border);
-  border-left: 4px solid;
-  border-radius: 12px;
   padding: 20px;
-  transition: all 0.2s ease;
+  border-bottom: 1px solid var(--border-secondary);
+  transition: background 150ms ease;
+}
+
+.insightCard:last-child {
+  border-bottom: none;
 }
 
 .insightCard:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateX(4px);
+  background: var(--bg-hover);
 }
 
 .impactBadge {
-  color: white;
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 700;
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .actionButton {
-  padding: 10px 20px;
-  background: #d97706;
-  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--accent);
+  color: var(--text-on-accent);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 150ms ease;
   border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .actionButton:hover {
-  background: #f59e0b;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  background: var(--accent-hover);
 }
 
 .skeletonCard {
-  height: 120px;
+  height: 100px;
   flex: 1;
-  min-width: 200px;
-  border-radius: 16px;
-  background: linear-gradient(90deg, #e5e7eb 0%, #d1d5db 50%, #e5e7eb 100%);
+  min-width: 180px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-hover) 50%, var(--bg-tertiary) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }
 
 .skeletonLarge {
-  height: 320px;
-  border-radius: 16px;
-  background: linear-gradient(90deg, #e5e7eb 0%, #d1d5db 50%, #e5e7eb 100%);
+  height: 280px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-hover) 50%, var(--bg-tertiary) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }
 
 .skeletonVisitor {
-  height: 88px;
-  border-radius: 12px;
-  background: linear-gradient(90deg, #e5e7eb 0%, #d1d5db 50%, #e5e7eb 100%);
+  height: 64px;
+  background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-hover) 50%, var(--bg-tertiary) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }
 
 .skeletonInsight {
-  height: 140px;
-  border-radius: 12px;
-  background: linear-gradient(90deg, #e5e7eb 0%, #d1d5db 50%, #e5e7eb 100%);
+  height: 100px;
+  background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-hover) 50%, var(--bg-tertiary) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }
 
 .skeletonDot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: linear-gradient(90deg, #e5e7eb 0%, #d1d5db 50%, #e5e7eb 100%);
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-hover) 50%, var(--bg-tertiary) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }
 
 .skeletonText {
-  width: 140px;
-  height: 22px;
-  border-radius: 6px;
-  background: linear-gradient(90deg, #e5e7eb 0%, #d1d5db 50%, #e5e7eb 100%);
+  width: 120px;
+  height: 16px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-hover) 50%, var(--bg-tertiary) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }
 
 @keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
+/* Metric Cards */
+.metricCard {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-secondary);
+  border-radius: 12px;
+  padding: 20px 24px;
+  min-width: 200px;
+  flex: 1;
+  transition: all 200ms ease;
+}
+
+.metricCard:hover {
+  border-color: var(--border-primary);
+  transform: translateY(-2px);
+}
+
+.metricHighlight {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.04) 0%, transparent 100%);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+/* Card Header */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* Bar Chart */
+.barChart {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.barRow {
+  display: grid;
+  grid-template-columns: 160px 1fr 60px;
+  gap: 16px;
+  align-items: center;
+}
+
+.barLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.barTrack {
+  height: 8px;
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.barValue {
+  text-align: right;
+}
+
+/* Top Badge */
+.topBadge {
+  position: absolute;
+  top: -8px;
+  right: 12px;
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  color: white;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Persona Tip */
+.personaTip {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-secondary);
+}
+
+/* Empty State */
 .emptyState {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 64px 32px;
+  padding: 80px 32px;
   text-align: center;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  border: 1px dashed var(--border-primary);
+}
+
+.emptyIcon {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+.codeHint {
+  margin-top: 24px;
+  padding: 12px 20px;
+  background: var(--bg-tertiary);
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
 }
 
 @media (max-width: 768px) {
   .dashboard {
     padding: 20px;
   }
-
-  .personaCard {
-    min-width: 100%;
-  }
-
+  
+  .personaCard,
   .summaryCard {
     min-width: 100%;
   }

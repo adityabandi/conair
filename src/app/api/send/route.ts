@@ -314,7 +314,7 @@ export async function POST(request: Request) {
     const error = serializeError(e);
 
     // eslint-disable-next-line no-console
-    console.log(error);
+    console.error(error);
 
     return serverError({ errorObject: error });
   }

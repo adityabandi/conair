@@ -4,9 +4,7 @@ import { parseRequest } from '@/lib/request';
 import prisma from '@/lib/prisma';
 import { z } from 'zod';
 
-const getSchema = z.object({
-  websiteId: z.uuid(),
-});
+const getSchema = z.object({});
 
 // GET - Fetch live visitors on the site
 export async function GET(
@@ -14,7 +12,7 @@ export async function GET(
   { params }: { params: Promise<{ websiteId: string }> },
 ) {
   const { websiteId } = await params;
-  const { auth, error } = await parseRequest(request, getSchema, { websiteId });
+  const { auth, error } = await parseRequest(request, getSchema);
 
   if (error) return error();
   if (!(await canViewWebsite(auth, websiteId))) return unauthorized();

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Row, Column, Text, Button } from '@umami/react-zen';
+import { Row, Column, Text } from '@/components/zen';
 import { PersonaOverview } from './PersonaOverview';
 import { LiveVisitorFeed } from './LiveVisitorFeed';
 import { InsightsList } from './InsightsList';
@@ -11,47 +11,51 @@ interface PersonaDashboardProps {
   websiteId: string;
 }
 
+const TABS = [
+  { id: 'overview', label: 'Overview', icon: '📊' },
+  { id: 'live', label: 'Live Feed', icon: '⚡' },
+  { id: 'insights', label: 'AI Insights', icon: '💡' },
+] as const;
+
 export function PersonaDashboard({ websiteId }: PersonaDashboardProps) {
   const [activeTab, setActiveTab] = useState<'overview' | 'live' | 'insights'>('overview');
 
   return (
     <Column gap="6" className={styles.dashboard}>
       {/* Header */}
-      <Row justifyContent="space-between" alignItems="center">
-        <Column gap="1">
-          <Text size="7" weight="bold">
-            Persona Intelligence
-          </Text>
-          <Text color="muted">
-            Understand your visitors and optimize their experience automatically
+      <div className={styles.dashboardHeader}>
+        <Column gap="2">
+          <Row gap="3" alignItems="center">
+            <span className={styles.headerIcon}>🧠</span>
+            <Text size="7" weight="bold">
+              Persona Intelligence
+            </Text>
+          </Row>
+          <Text color="muted" size="3">
+            AI-powered visitor analysis and conversion optimization
           </Text>
         </Column>
-        <Row gap="2">
-          <Button
-            variant={activeTab === 'overview' ? 'primary' : 'secondary'}
-            onClick={() => setActiveTab('overview')}
-          >
-            Overview
-          </Button>
-          <Button
-            variant={activeTab === 'live' ? 'primary' : 'secondary'}
-            onClick={() => setActiveTab('live')}
-          >
-            Live Feed
-          </Button>
-          <Button
-            variant={activeTab === 'insights' ? 'primary' : 'secondary'}
-            onClick={() => setActiveTab('insights')}
-          >
-            Insights
-          </Button>
-        </Row>
-      </Row>
+
+        <div className={styles.tabsContainer}>
+          {TABS.map((tab) => (
+            <button
+              key={tab.id}
+              className={`${styles.tab} ${activeTab === tab.id ? styles.tabActive : ''}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              <span className={styles.tabIcon}>{tab.icon}</span>
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* Content */}
-      {activeTab === 'overview' && <PersonaOverview websiteId={websiteId} />}
-      {activeTab === 'live' && <LiveVisitorFeed websiteId={websiteId} />}
-      {activeTab === 'insights' && <InsightsList websiteId={websiteId} />}
+      <div className={styles.dashboardContent}>
+        {activeTab === 'overview' && <PersonaOverview websiteId={websiteId} />}
+        {activeTab === 'live' && <LiveVisitorFeed websiteId={websiteId} />}
+        {activeTab === 'insights' && <InsightsList websiteId={websiteId} />}
+      </div>
     </Column>
   );
 }

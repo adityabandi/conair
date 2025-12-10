@@ -1,0 +1,8 @@
+.dialog {
+  padding: var(--space-6);
+  min-width: 320px;
+}
+
+.menu {
+  padding: var(--space-2);
+}

@@ -10,7 +10,7 @@ import {
   DialogTrigger,
   Popover,
   Dialog,
-} from '@umami/react-zen';
+} from '@/components/zen';
 import { LoadingPanel } from '@/components/common/LoadingPanel';
 import { Eye, FileText } from '@/components/icons';
 import { Lightning } from '@/components/svg';

@@ -1,0 +1,15 @@
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  padding: var(--space-2) 0;
+}
+
+.separator {
+  height: 1px;
+  margin: var(--space-2) 0;
+  background: var(--border-secondary);
+}

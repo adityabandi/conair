@@ -11,7 +11,7 @@ import { renderDateLabels } from '@/lib/charts';
 import { CHART_COLORS } from '@/lib/constants';
 import { generateTimeSeries } from '@/lib/date';
 import { formatLongCurrency, formatLongNumber } from '@/lib/format';
-import { Column, Grid, Row, Text } from '@umami/react-zen';
+import { Column, Grid, Row, Text } from '@/components/zen';
 import classNames from 'classnames';
 import { colord } from 'colord';
 import { useCallback, useMemo, useState } from 'react';

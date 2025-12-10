@@ -1,4 +1,4 @@
-import { Icon, Text, Row, RowProps } from '@umami/react-zen';
+import { Icon, Text, Row, RowProps } from '@/components/zen';
 import { ReactNode } from 'react';
 import { ArrowRight } from '@/components/icons';
 

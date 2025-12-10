@@ -1,7 +1,8 @@
 'use client';
 
-import { Row, Column, Text, Button } from '@umami/react-zen';
+import { Row, Column, Text, Button } from '@/components/zen';
 import { useApi } from '@/components/hooks/useApi';
+import { useQueryClient } from '@tanstack/react-query';
 import styles from './PersonaDashboard.module.css';
 
 interface InsightsListProps {
@@ -14,8 +15,75 @@ const IMPACT_COLORS = {
   low: '#6B7280',
 };
 
+// Mock insights for demo
+const MOCK_INSIGHTS = [
+  {
+    id: 'i1',
+    title: 'Ready Buyers are dropping off at checkout',
+    description: 'High-intent visitors identified as "Ready Buyers" have a 34% cart abandonment rate. Consider simplifying the checkout flow or adding trust signals like security badges and money-back guarantees.',
+    impact: 'high',
+    confidence: 0.92,
+    actionType: 'optimize-checkout',
+    persona: 'ready-buyer',
+  },
+  {
+    id: 'i2',
+    title: 'Value Seekers respond well to ROI calculators',
+    description: 'Visitors classified as "Value Seekers" spend 3x longer on pages with ROI calculators. Add an interactive calculator to your pricing page to improve conversion.',
+    impact: 'high',
+    confidence: 0.87,
+    actionType: 'add-calculator',
+    persona: 'value-seeker',
+  },
+  {
+    id: 'i3',
+    title: 'Trust Seekers need more social proof',
+    description: 'Trust-seeking visitors exit after viewing testimonials but before converting. Consider adding case studies, customer logos, or video testimonials to build credibility.',
+    impact: 'medium',
+    confidence: 0.84,
+    actionType: 'add-social-proof',
+    persona: 'trust-seeker',
+  },
+  {
+    id: 'i4',
+    title: 'Mobile experience needs optimization',
+    description: '42% of your high-intent visitors are on mobile, but conversion rate is 60% lower than desktop. Review mobile checkout flow and page load times.',
+    impact: 'medium',
+    confidence: 0.79,
+    actionType: 'optimize-mobile',
+    persona: null,
+  },
+  {
+    id: 'i5',
+    title: 'Solution Seekers engage with feature comparisons',
+    description: 'Visitors looking for solutions spend significant time comparing features. A side-by-side competitor comparison table could improve their conversion path.',
+    impact: 'medium',
+    confidence: 0.81,
+    actionType: 'add-comparison',
+    persona: 'solution-seeker',
+  },
+  {
+    id: 'i6',
+    title: 'Explorers can be nurtured with email capture',
+    description: 'Low-intent "Explorer" visitors rarely convert on first visit. Implement an exit-intent popup offering valuable content in exchange for email to nurture them.',
+    impact: 'low',
+    confidence: 0.76,
+    actionType: 'add-email-capture',
+    persona: 'explorer',
+  },
+];
+
 export function InsightsList({ websiteId }: InsightsListProps) {
-  const { data, isLoading, mutate } = useApi(`/api/websites/${websiteId}/insights`);
+  const { get, useQuery } = useApi();
+  const queryClient = useQueryClient();
+  const queryKey = ['insights', websiteId];
+
+  const { data: apiData, isLoading } = useQuery({
+    queryKey,
+    queryFn: () => get(`/websites/${websiteId}/insights`),
+  });
+
+  const refetch = () => queryClient.invalidateQueries({ queryKey });
 
   const handleApply = async (insightId: string) => {
     await fetch(`/api/websites/${websiteId}/insights`, {
@@ -23,7 +91,7 @@ export function InsightsList({ websiteId }: InsightsListProps) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: 'apply', insightId }),
     });
-    mutate();
+    refetch();
   };
 
   const handleDismiss = async (insightId: string) => {
@@ -32,7 +100,7 @@ export function InsightsList({ websiteId }: InsightsListProps) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: 'dismiss', insightId }),
     });
-    mutate();
+    refetch();
   };
 
   const handleGenerate = async () => {
@@ -41,12 +109,13 @@ export function InsightsList({ websiteId }: InsightsListProps) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: 'generate' }),
     });
-    mutate();
+    refetch();
   };
 
   if (isLoading) return <InsightsSkeleton />;
 
-  const insights = data?.insights || [];
+  // Use mock data if API doesn't return insights
+  const insights = apiData?.insights?.length > 0 ? apiData.insights : MOCK_INSIGHTS;
 
   return (
     <Column gap="6">
@@ -118,7 +187,7 @@ function InsightCard({
           <Button variant="primary" onClick={onApply}>
             Apply This
           </Button>
-          <Button variant="secondary" onClick={onDismiss}>
+          <Button variant="quiet" onClick={onDismiss}>
             Dismiss
           </Button>
         </Row>

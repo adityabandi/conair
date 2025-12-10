@@ -5,14 +5,11 @@ import prisma from '@/lib/prisma';
 import { generateInsights } from '@/lib/insights/generateInsights';
 import { z } from 'zod';
 
-const getSchema = z.object({
-  websiteId: z.uuid(),
-});
+const getSchema = z.object({});
 
 const postSchema = z.object({
-  websiteId: z.uuid(),
   action: z.enum(['generate', 'apply', 'dismiss']),
-  insightId: z.uuid().optional(),
+  insightId: z.string().uuid().optional(),
 });
 
 // GET - Fetch insights for a website
@@ -21,7 +18,7 @@ export async function GET(
   { params }: { params: Promise<{ websiteId: string }> },
 ) {
   const { websiteId } = await params;
-  const { auth, error } = await parseRequest(request, getSchema, { websiteId });
+  const { auth, error } = await parseRequest(request, getSchema);
 
   if (error) return error();
   if (!(await canViewWebsite(auth, websiteId))) return unauthorized();
@@ -135,7 +132,7 @@ export async function POST(
   { params }: { params: Promise<{ websiteId: string }> },
 ) {
   const { websiteId } = await params;
-  const { auth, body, error } = await parseRequest(request, postSchema, { websiteId });
+  const { auth, body, error } = await parseRequest(request, postSchema);
 
   if (error) return error();
   if (!(await canViewWebsite(auth, websiteId))) return unauthorized();

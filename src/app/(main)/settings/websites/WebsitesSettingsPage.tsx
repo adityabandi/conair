@@ -1,5 +1,5 @@
 'use client';
-import { Column } from '@umami/react-zen';
+import { Column } from '@/components/zen';
 import { useMessages } from '@/components/hooks';
 import { WebsitesDataTable } from '@/app/(main)/websites/WebsitesDataTable';
 import { SectionHeader } from '@/components/common/SectionHeader';

@@ -1,4 +1,4 @@
-import { Row, Icon, Text, ThemeButton } from '@umami/react-zen';
+import { Row, Icon, Text, ThemeButton } from '@/components/zen';
 import { LanguageButton } from '@/components/input/LanguageButton';
 import { PreferencesButton } from '@/components/input/PreferencesButton';
 import { Logo } from '@/components/svg';

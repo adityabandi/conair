@@ -7,7 +7,7 @@ import { WebsiteChart } from '@/app/(main)/websites/[websiteId]/WebsiteChart';
 import { PixelMetricsBar } from '@/app/(main)/pixels/[pixelId]/PixelMetricsBar';
 import { PixelControls } from '@/app/(main)/pixels/[pixelId]/PixelControls';
 import { PixelPanels } from '@/app/(main)/pixels/[pixelId]/PixelPanels';
-import { Column, Grid } from '@umami/react-zen';
+import { Column, Grid } from '@/components/zen';
 import { ExpandedViewModal } from '@/app/(main)/websites/[websiteId]/ExpandedViewModal';
 
 const excludedIds = ['path', 'entry', 'exit', 'title', 'language', 'screen', 'event'];

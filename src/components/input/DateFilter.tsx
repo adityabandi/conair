@@ -1,5 +1,5 @@
 import { useState, Key, Fragment } from 'react';
-import { Modal, Select, ListItem, ListSeparator, Dialog, SelectProps } from '@umami/react-zen';
+import { Modal, Select, ListItem, ListSeparator, Dialog, SelectProps } from '@/components/zen';
 import { endOfYear } from 'date-fns';
 import { DatePickerForm } from '@/components/metrics/DatePickerForm';
 import { useMessages, useMobile } from '@/components/hooks';

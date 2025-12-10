@@ -10,7 +10,7 @@ import {
   MenuSection,
   Text,
   Row,
-} from '@umami/react-zen';
+} from '@/components/zen';
 import { useMessages, useLoginQuery, useNavigation } from '@/components/hooks';
 import { LogOut, UserCircle, LockKeyhole } from '@/components/icons';
 
