@@ -41,7 +41,11 @@ export function ContentEditor({ websiteId }: ContentEditorProps) {
   const queryClient = useQueryClient();
   const queryKey = ['content-variants', websiteId];
 
-  const { data, isLoading } = useQuery({
+  const {
+    data,
+    isLoading,
+    error: queryError,
+  } = useQuery({
     queryKey,
     queryFn: () => get(`/websites/${websiteId}/content-variants`),
   });
@@ -51,6 +55,7 @@ export function ContentEditor({ websiteId }: ContentEditorProps) {
   const [isCreating, setIsCreating] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<ContentVariant>>({
     persona: 'value-seeker',
     contentType: 'text',
@@ -85,6 +90,7 @@ export function ContentEditor({ websiteId }: ContentEditorProps) {
     if (!formData.selector || !formData.content) return;
 
     setIsSaving(true);
+    setError(null);
     try {
       if (isCreating) {
         await post(`/websites/${websiteId}/content-variants`, formData);
@@ -94,7 +100,7 @@ export function ContentEditor({ websiteId }: ContentEditorProps) {
       refetch();
       handleCancel();
     } catch {
-      // Error handling - variant save failed
+      setError('Failed to save content variant. Please try again.');
     } finally {
       setIsSaving(false);
     }
@@ -103,22 +109,24 @@ export function ContentEditor({ websiteId }: ContentEditorProps) {
   const handleDelete = async (variantId: string) => {
     if (!confirm('Are you sure you want to delete this content variant?')) return;
 
+    setError(null);
     try {
       await del(`/websites/${websiteId}/content-variants/${variantId}`);
       refetch();
     } catch {
-      // Error handling - variant delete failed
+      setError('Failed to delete content variant. Please try again.');
     }
   };
 
   const handleToggleActive = async (variant: ContentVariant) => {
+    setError(null);
     try {
       await patch(`/websites/${websiteId}/content-variants/${variant.id}`, {
         isActive: !variant.isActive,
       });
       refetch();
     } catch {
-      // Error handling - variant toggle failed
+      setError('Failed to update variant status. Please try again.');
     }
   };
 
@@ -126,8 +134,30 @@ export function ContentEditor({ websiteId }: ContentEditorProps) {
     return <ContentEditorSkeleton />;
   }
 
+  if (queryError) {
+    return (
+      <Column gap="4" alignItems="center" className={styles.emptyState}>
+        <span className={styles.emptyIcon}>⚠️</span>
+        <Text size="5" weight="bold">
+          Failed to load content variants
+        </Text>
+        <Text color="muted">Please try refreshing the page.</Text>
+      </Column>
+    );
+  }
+
   return (
     <Column gap="6" className={styles.editor}>
+      {/* Error Message */}
+      {error && (
+        <div className={styles.errorBanner}>
+          <Text color="error">{error}</Text>
+          <button onClick={() => setError(null)} className={styles.errorClose}>
+            ×
+          </button>
+        </div>
+      )}
+
       {/* Header */}
       <Row justifyContent="space-between" alignItems="center">
         <Column gap="1">

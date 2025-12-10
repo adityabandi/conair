@@ -47,7 +47,7 @@ export function LivePage() {
         <div className={styles.statItem}>
           <span className={styles.statValue}>
             {Object.values(summary.distribution || {}).reduce(
-              (a: number, b: unknown) => a + (b as number),
+              (a: number, b) => a + (typeof b === 'number' ? b : 0),
               0,
             )}
           </span>

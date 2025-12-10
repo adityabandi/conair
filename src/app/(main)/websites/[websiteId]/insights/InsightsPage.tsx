@@ -59,9 +59,15 @@ export function InsightsPage() {
   const { websiteId } = useParams();
   const [filter, setFilter] = useState<string>('all');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generateError, setGenerateError] = useState<string | null>(null);
   const { get, post, useQuery } = useApi();
 
-  const { data, refetch, isLoading } = useQuery({
+  const {
+    data,
+    refetch,
+    isLoading,
+    error: queryError,
+  } = useQuery({
     queryKey: ['insights', websiteId],
     queryFn: () => get(`/websites/${websiteId}/insights`),
   });
@@ -77,9 +83,12 @@ export function InsightsPage() {
 
   const handleGenerate = async () => {
     setIsGenerating(true);
+    setGenerateError(null);
     try {
       await post(`/websites/${websiteId}/insights`, { action: 'generate' });
       refetch();
+    } catch {
+      setGenerateError('Failed to generate insights. Please try again.');
     } finally {
       setIsGenerating(false);
     }
@@ -89,8 +98,30 @@ export function InsightsPage() {
     return <InsightsPageSkeleton />;
   }
 
+  if (queryError) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.emptyState}>
+          <span className={styles.emptyIcon}>⚠️</span>
+          <h3 className={styles.emptyTitle}>Failed to load insights</h3>
+          <p className={styles.emptyDescription}>Please try refreshing the page.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
+      {/* Error Banner */}
+      {generateError && (
+        <div className={styles.errorBanner}>
+          <span>{generateError}</span>
+          <button onClick={() => setGenerateError(null)} className={styles.errorClose}>
+            ×
+          </button>
+        </div>
+      )}
+
       {/* Header */}
       <div className={styles.header}>
         <Column gap="1">
