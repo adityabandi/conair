@@ -1,12 +1,26 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { Row, Column, Text } from '@/components/zen';
+import { Row, Column } from '@/components/zen';
 import { LiveVisitorFeed } from '@/components/persona/LiveVisitorFeed';
+import { useApi } from '@/components/hooks/useApi';
 import styles from './LivePage.module.css';
 
 export function LivePage() {
   const { websiteId } = useParams();
+  const { get, useQuery } = useApi();
+
+  // Fetch live stats
+  const { data } = useQuery({
+    queryKey: ['live-stats', websiteId],
+    queryFn: () => get(`/websites/${websiteId}/live`),
+    refetchInterval: 10000, // Auto-refresh every 10 seconds
+  });
+
+  const summary = data?.summary || { total: 0, highIntent: 0, distribution: {} };
+  const personasDetected = Object.keys(summary.distribution || {}).filter(
+    k => summary.distribution[k] > 0 && k !== 'explorer',
+  ).length;
 
   return (
     <div className={styles.container}>
@@ -26,22 +40,27 @@ export function LivePage() {
       {/* Stats Bar */}
       <div className={styles.statsBar}>
         <div className={styles.statItem}>
-          <span className={styles.statValue}>—</span>
+          <span className={styles.statValue}>{summary.total}</span>
           <span className={styles.statLabel}>Active Now</span>
         </div>
         <div className={styles.divider} />
         <div className={styles.statItem}>
-          <span className={styles.statValue}>—</span>
-          <span className={styles.statLabel}>Today's Visitors</span>
+          <span className={styles.statValue}>
+            {Object.values(summary.distribution || {}).reduce(
+              (a: number, b: unknown) => a + (b as number),
+              0,
+            )}
+          </span>
+          <span className={styles.statLabel}>Today&apos;s Visitors</span>
         </div>
         <div className={styles.divider} />
         <div className={styles.statItem}>
-          <span className={styles.statValue}>—</span>
+          <span className={styles.statValue}>{personasDetected}</span>
           <span className={styles.statLabel}>Personas Detected</span>
         </div>
         <div className={styles.divider} />
         <div className={styles.statItem}>
-          <span className={styles.statValue}>—</span>
+          <span className={styles.statValue}>{summary.highIntent}</span>
           <span className={styles.statLabel}>High Intent</span>
         </div>
       </div>
