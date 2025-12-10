@@ -1,7 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Row, Column, Text, Button } from '@/components/zen';
+import { useApi } from '@/components/hooks/useApi';
+import { useQueryClient } from '@tanstack/react-query';
 import styles from './ContentEditor.module.css';
 
 interface ContentVariant {
@@ -17,8 +19,6 @@ interface ContentVariant {
 
 interface ContentEditorProps {
   websiteId: string;
-  variants?: ContentVariant[];
-  onSave?: (variant: ContentVariant) => void;
 }
 
 const PERSONA_OPTIONS = [
@@ -36,16 +36,30 @@ const CONTENT_TYPE_OPTIONS = [
   { value: 'attribute', label: 'Attribute', description: 'Set HTML attribute' },
 ];
 
-/* eslint-disable no-unused-vars */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function ContentEditor({ websiteId, variants = [], onSave }: ContentEditorProps) {
+export function ContentEditor({ websiteId }: ContentEditorProps) {
+  const { get, post, patch, del, useQuery } = useApi();
+  const queryClient = useQueryClient();
+  const queryKey = ['content-variants', websiteId];
+
+  const { data, isLoading } = useQuery({
+    queryKey,
+    queryFn: () => get(`/websites/${websiteId}/content-variants`),
+  });
+
+  const variants: ContentVariant[] = data?.variants || [];
+
   const [isCreating, setIsCreating] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState<Partial<ContentVariant>>({
     persona: 'value-seeker',
     contentType: 'text',
     isActive: true,
   });
+
+  const refetch = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey });
+  }, [queryClient, queryKey]);
 
   const handleCreate = () => {
     setIsCreating(true);
@@ -67,12 +81,50 @@ export function ContentEditor({ websiteId, variants = [], onSave }: ContentEdito
     setFormData({});
   };
 
-  const handleSave = () => {
-    if (onSave && formData.selector && formData.content) {
-      onSave(formData as ContentVariant);
+  const handleSave = async () => {
+    if (!formData.selector || !formData.content) return;
+
+    setIsSaving(true);
+    try {
+      if (isCreating) {
+        await post(`/websites/${websiteId}/content-variants`, formData);
+      } else if (editingId) {
+        await patch(`/websites/${websiteId}/content-variants/${editingId}`, formData);
+      }
+      refetch();
+      handleCancel();
+    } catch {
+      // Error handling - variant save failed
+    } finally {
+      setIsSaving(false);
     }
-    handleCancel();
   };
+
+  const handleDelete = async (variantId: string) => {
+    if (!confirm('Are you sure you want to delete this content variant?')) return;
+
+    try {
+      await del(`/websites/${websiteId}/content-variants/${variantId}`);
+      refetch();
+    } catch {
+      // Error handling - variant delete failed
+    }
+  };
+
+  const handleToggleActive = async (variant: ContentVariant) => {
+    try {
+      await patch(`/websites/${websiteId}/content-variants/${variant.id}`, {
+        isActive: !variant.isActive,
+      });
+      refetch();
+    } catch {
+      // Error handling - variant toggle failed
+    }
+  };
+
+  if (isLoading) {
+    return <ContentEditorSkeleton />;
+  }
 
   return (
     <Column gap="6" className={styles.editor}>
@@ -242,11 +294,15 @@ export function ContentEditor({ websiteId, variants = [], onSave }: ContentEdito
 
             {/* Actions */}
             <Row gap="3" justifyContent="flex-end">
-              <Button variant="outline" onClick={handleCancel}>
+              <Button variant="outline" onClick={handleCancel} isDisabled={isSaving}>
                 Cancel
               </Button>
-              <Button variant="primary" onClick={handleSave}>
-                {isCreating ? 'Create Variant' : 'Save Changes'}
+              <Button
+                variant="primary"
+                onClick={handleSave}
+                isDisabled={isSaving || !formData.selector || !formData.content}
+              >
+                {isSaving ? 'Saving...' : isCreating ? 'Create Variant' : 'Save Changes'}
               </Button>
             </Row>
           </Column>
@@ -257,7 +313,7 @@ export function ContentEditor({ websiteId, variants = [], onSave }: ContentEdito
       {variants.length > 0 && !isCreating && !editingId && (
         <Column gap="3">
           <Text size="4" weight="bold">
-            Active Variants
+            Content Variants ({variants.length})
           </Text>
           {variants.map(variant => {
             const personaConfig = PERSONA_OPTIONS.find(p => p.value === variant.persona);
@@ -281,13 +337,17 @@ export function ContentEditor({ websiteId, variants = [], onSave }: ContentEdito
                     </Column>
                   </Row>
                   <Row gap="2">
-                    <span
+                    <button
                       className={`${styles.statusBadge} ${variant.isActive ? styles.statusActive : styles.statusInactive}`}
+                      onClick={() => handleToggleActive(variant)}
                     >
                       {variant.isActive ? 'Active' : 'Inactive'}
-                    </span>
+                    </button>
                     <Button variant="quiet" onClick={() => handleEdit(variant)}>
                       Edit
+                    </Button>
+                    <Button variant="quiet" onClick={() => handleDelete(variant.id)}>
+                      Delete
                     </Button>
                   </Row>
                 </Row>
@@ -319,6 +379,22 @@ export function ContentEditor({ websiteId, variants = [], onSave }: ContentEdito
           </Button>
         </Column>
       )}
+    </Column>
+  );
+}
+
+function ContentEditorSkeleton() {
+  return (
+    <Column gap="6" className={styles.editor}>
+      <Row justifyContent="space-between" alignItems="center">
+        <Column gap="1">
+          <div className={styles.skeletonTitle} />
+          <div className={styles.skeletonText} />
+        </Column>
+        <div className={styles.skeletonButton} />
+      </Row>
+      <div className={styles.skeletonCard} />
+      <div className={styles.skeletonCard} />
     </Column>
   );
 }
