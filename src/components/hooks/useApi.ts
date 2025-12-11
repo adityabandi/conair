@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { getClientAuthToken } from '@/lib/client';
 import { SHARE_TOKEN_HEADER } from '@/lib/constants';
-import { httpGet, httpPost, httpPut, httpDelete, FetchResponse } from '@/lib/fetch';
+import { httpGet, httpPost, httpPut, httpPatch, httpDelete, FetchResponse } from '@/lib/fetch';
 import { useApp } from '@/store/app';
 
 const selector = (state: { shareToken: { token?: string } }) => state.shareToken;
@@ -53,6 +53,13 @@ export function useApi() {
         return httpPut(getUrl(url), params, getHeaders(headers)).then(handleResponse);
       },
       [httpPut],
+    ),
+
+    patch: useCallback(
+      async (url: string, params: object = {}, headers: object = {}) => {
+        return httpPatch(getUrl(url), params, getHeaders(headers)).then(handleResponse);
+      },
+      [httpPatch],
     ),
 
     del: useCallback(

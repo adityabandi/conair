@@ -26,11 +26,13 @@ export function App({ children }) {
     return <Loading placement="absolute" />;
   }
 
-  // Auth gate temporarily bypassed - app works without login
-  // if (error) {
-  //   window.location.href = `${process.env.basePath || ''}/login`;
-  //   return null;
-  // }
+  // Redirect to login if not authenticated (user id is 'anonymous')
+  if (!user || user.id === 'anonymous') {
+    if (typeof window !== 'undefined') {
+      window.location.href = `${process.env.basePath || ''}/login`;
+    }
+    return <Loading placement="absolute" />;
+  }
 
   if (!config) {
     return null;

@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
-import { Row, Column, Text, Button } from '@/components/zen';
+import { Row, Column, Button } from '@/components/zen';
 import { useApi } from '@/components/hooks/useApi';
 import { Sparkline } from '@/components/charts/Sparkline';
 import styles from './InsightsPage.module.css';
 
 interface Insight {
   id: string;
-  type: 'opportunity' | 'warning' | 'trend' | 'recommendation';
+  type: string;
   impact: 'high' | 'medium' | 'low';
   title: string;
   description: string;
@@ -30,7 +30,11 @@ interface InsightAction {
   action: 'create_experiment' | 'create_variant' | 'dismiss' | 'view_details';
 }
 
-const INSIGHT_ICONS = {
+const INSIGHT_ICONS: Record<string, string> = {
+  bounce_page: '🚪',
+  conversion_path: '🛤️',
+  engagement_pattern: '📊',
+  page_performance: '⚡',
   opportunity: '💡',
   warning: '⚠️',
   trend: '📈',
@@ -48,91 +52,30 @@ const PERSONA_CONFIG: Record<string, { icon: string; color: string; label: strin
   'solution-seeker': { icon: '🔧', color: '#3B82F6', label: 'Solution Seekers' },
   'trust-seeker': { icon: '⭐', color: '#8B5CF6', label: 'Trust Seekers' },
   'ready-buyer': { icon: '🎯', color: '#EF4444', label: 'Ready Buyers' },
-  'explorer': { icon: '🧭', color: '#6B7280', label: 'Explorers' },
+  explorer: { icon: '🧭', color: '#6B7280', label: 'Explorers' },
 };
-
-// Mock data
-const MOCK_INSIGHTS: Insight[] = [
-  {
-    id: '1',
-    type: 'opportunity',
-    impact: 'high',
-    title: 'Value Seekers drop off on pricing page',
-    description: '68% of visitors identified as Value Seekers leave within 10 seconds of viewing the pricing page. Consider showing comparison tables or ROI calculators.',
-    metric: 'Bounce Rate',
-    metricValue: '68%',
-    metricChange: 12,
-    chartData: [54, 58, 62, 60, 65, 68, 68],
-    persona: 'value-seeker',
-    confidence: 94,
-    createdAt: '2024-01-15T10:30:00Z',
-    actions: [
-      { id: 'a1', label: 'Create A/B Test', type: 'primary', action: 'create_experiment' },
-      { id: 'a2', label: 'Add Content Variant', type: 'secondary', action: 'create_variant' },
-    ],
-  },
-  {
-    id: '2',
-    type: 'recommendation',
-    impact: 'high',
-    title: 'Trust Seekers convert 3x more with testimonials',
-    description: 'Pages with customer testimonials show 3.2x higher conversion for Trust Seeker personas. Consider adding testimonials to your landing and pricing pages.',
-    metric: 'Conversion Lift',
-    metricValue: '+320%',
-    metricChange: 320,
-    chartData: [1.2, 1.5, 2.1, 2.8, 3.0, 3.2, 3.2],
-    persona: 'trust-seeker',
-    confidence: 91,
-    createdAt: '2024-01-15T09:15:00Z',
-    actions: [
-      { id: 'a3', label: 'Add Testimonials', type: 'primary', action: 'create_variant' },
-      { id: 'a4', label: 'View Details', type: 'secondary', action: 'view_details' },
-    ],
-  },
-  {
-    id: '3',
-    type: 'trend',
-    impact: 'medium',
-    title: 'Ready Buyers increasing on weekends',
-    description: 'We\'ve detected 40% more Ready Buyer personas visiting on weekends. Consider running targeted campaigns during this high-intent period.',
-    metric: 'Weekend Traffic',
-    metricValue: '+40%',
-    metricChange: 40,
-    chartData: [100, 105, 110, 125, 130, 140, 140],
-    persona: 'ready-buyer',
-    confidence: 87,
-    createdAt: '2024-01-14T16:45:00Z',
-    actions: [
-      { id: 'a5', label: 'Schedule Campaign', type: 'primary', action: 'create_experiment' },
-      { id: 'a6', label: 'Dismiss', type: 'secondary', action: 'dismiss' },
-    ],
-  },
-  {
-    id: '4',
-    type: 'warning',
-    impact: 'medium',
-    title: 'Mobile conversion significantly lower',
-    description: 'Mobile visitors convert at 0.8% vs 2.4% desktop. Solution Seekers on mobile are particularly affected—consider optimizing mobile product comparison.',
-    metric: 'Mobile Gap',
-    metricValue: '-67%',
-    metricChange: -67,
-    chartData: [2.4, 2.3, 2.2, 1.5, 1.0, 0.9, 0.8],
-    persona: 'solution-seeker',
-    confidence: 96,
-    createdAt: '2024-01-14T11:20:00Z',
-    actions: [
-      { id: 'a7', label: 'View Mobile Data', type: 'primary', action: 'view_details' },
-      { id: 'a8', label: 'Create Mobile Variant', type: 'secondary', action: 'create_variant' },
-    ],
-  },
-];
 
 export function InsightsPage() {
   const { websiteId } = useParams();
   const [filter, setFilter] = useState<string>('all');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generateError, setGenerateError] = useState<string | null>(null);
+  const { get, post, useQuery } = useApi();
 
-  const filteredInsights = MOCK_INSIGHTS.filter(insight => {
+  const {
+    data,
+    refetch,
+    isLoading,
+    error: queryError,
+  } = useQuery({
+    queryKey: ['insights', websiteId],
+    queryFn: () => get(`/websites/${websiteId}/insights`),
+  });
+
+  const insights = data?.insights || [];
+  const summary = data?.summary || { high: 0, medium: 0, low: 0 };
+
+  const filteredInsights = insights.filter((insight: Insight) => {
     if (filter === 'all') return true;
     if (filter === 'high') return insight.impact === 'high';
     return insight.type === filter;
@@ -140,13 +83,45 @@ export function InsightsPage() {
 
   const handleGenerate = async () => {
     setIsGenerating(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setIsGenerating(false);
+    setGenerateError(null);
+    try {
+      await post(`/websites/${websiteId}/insights`, { action: 'generate' });
+      refetch();
+    } catch {
+      setGenerateError('Failed to generate insights. Please try again.');
+    } finally {
+      setIsGenerating(false);
+    }
   };
+
+  if (isLoading) {
+    return <InsightsPageSkeleton />;
+  }
+
+  if (queryError) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.emptyState}>
+          <span className={styles.emptyIcon}>⚠️</span>
+          <h3 className={styles.emptyTitle}>Failed to load insights</h3>
+          <p className={styles.emptyDescription}>Please try refreshing the page.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
+      {/* Error Banner */}
+      {generateError && (
+        <div className={styles.errorBanner}>
+          <span>{generateError}</span>
+          <button onClick={() => setGenerateError(null)} className={styles.errorClose}>
+            ×
+          </button>
+        </div>
+      )}
+
       {/* Header */}
       <div className={styles.header}>
         <Column gap="1">
@@ -155,11 +130,7 @@ export function InsightsPage() {
             Actionable recommendations powered by persona behavior analysis
           </p>
         </Column>
-        <Button
-          variant="primary"
-          onClick={handleGenerate}
-          disabled={isGenerating}
-        >
+        <Button variant="primary" onClick={handleGenerate} disabled={isGenerating}>
           {isGenerating ? 'Analyzing...' : '✨ Generate New Insights'}
         </Button>
       </div>
@@ -169,31 +140,29 @@ export function InsightsPage() {
         <div className={styles.summaryCard}>
           <div className={styles.summaryIcon}>💡</div>
           <div className={styles.summaryContent}>
-            <span className={styles.summaryValue}>{MOCK_INSIGHTS.length}</span>
+            <span className={styles.summaryValue}>{insights.length}</span>
             <span className={styles.summaryLabel}>Active Insights</span>
           </div>
         </div>
         <div className={styles.summaryCard}>
           <div className={styles.summaryIcon}>🎯</div>
           <div className={styles.summaryContent}>
-            <span className={styles.summaryValue}>
-              {MOCK_INSIGHTS.filter(i => i.impact === 'high').length}
-            </span>
+            <span className={styles.summaryValue}>{summary.high}</span>
             <span className={styles.summaryLabel}>High Impact</span>
           </div>
         </div>
         <div className={styles.summaryCard}>
-          <div className={styles.summaryIcon}>✅</div>
+          <div className={styles.summaryIcon}>⚡</div>
           <div className={styles.summaryContent}>
-            <span className={styles.summaryValue}>12</span>
-            <span className={styles.summaryLabel}>Applied This Month</span>
+            <span className={styles.summaryValue}>{summary.medium}</span>
+            <span className={styles.summaryLabel}>Medium Impact</span>
           </div>
         </div>
         <div className={styles.summaryCard}>
-          <div className={styles.summaryIcon}>📈</div>
+          <div className={styles.summaryIcon}>📊</div>
           <div className={styles.summaryContent}>
-            <span className={styles.summaryValue}>+18%</span>
-            <span className={styles.summaryLabel}>Conversion Lift</span>
+            <span className={styles.summaryValue}>{summary.low}</span>
+            <span className={styles.summaryLabel}>Low Impact</span>
           </div>
         </div>
       </div>
@@ -213,28 +182,28 @@ export function InsightsPage() {
           High Impact
         </button>
         <button
-          className={`${styles.filterButton} ${filter === 'opportunity' ? styles.filterActive : ''}`}
-          onClick={() => setFilter('opportunity')}
+          className={`${styles.filterButton} ${filter === 'bounce_page' ? styles.filterActive : ''}`}
+          onClick={() => setFilter('bounce_page')}
         >
-          💡 Opportunities
+          🚪 Bounce Issues
         </button>
         <button
-          className={`${styles.filterButton} ${filter === 'recommendation' ? styles.filterActive : ''}`}
-          onClick={() => setFilter('recommendation')}
+          className={`${styles.filterButton} ${filter === 'conversion_path' ? styles.filterActive : ''}`}
+          onClick={() => setFilter('conversion_path')}
         >
-          ✨ Recommendations
+          🛤️ Conversion Paths
         </button>
         <button
-          className={`${styles.filterButton} ${filter === 'warning' ? styles.filterActive : ''}`}
-          onClick={() => setFilter('warning')}
+          className={`${styles.filterButton} ${filter === 'engagement_pattern' ? styles.filterActive : ''}`}
+          onClick={() => setFilter('engagement_pattern')}
         >
-          ⚠️ Warnings
+          📊 Engagement
         </button>
       </div>
 
       {/* Insights List */}
       <div className={styles.insightsList}>
-        {filteredInsights.map(insight => (
+        {filteredInsights.map((insight: Insight) => (
           <InsightCard key={insight.id} insight={insight} />
         ))}
       </div>
@@ -245,8 +214,15 @@ export function InsightsPage() {
           <span className={styles.emptyIcon}>🔍</span>
           <h3 className={styles.emptyTitle}>No insights found</h3>
           <p className={styles.emptyDescription}>
-            Try adjusting your filters or generate new insights from your visitor data.
+            {insights.length === 0
+              ? 'Click "Generate New Insights" to analyze your visitor data and get actionable recommendations.'
+              : 'Try adjusting your filters or generate new insights from your visitor data.'}
           </p>
+          {insights.length === 0 && (
+            <Button variant="primary" onClick={handleGenerate} disabled={isGenerating}>
+              {isGenerating ? 'Analyzing...' : '✨ Generate Insights'}
+            </Button>
+          )}
         </div>
       )}
     </div>
@@ -254,7 +230,6 @@ export function InsightsPage() {
 }
 
 function InsightCard({ insight }: { insight: Insight }) {
-  const [isExpanded, setIsExpanded] = useState(false);
   const impactConfig = IMPACT_CONFIG[insight.impact];
   const personaConfig = insight.persona ? PERSONA_CONFIG[insight.persona] : null;
 
@@ -277,13 +252,9 @@ function InsightCard({ insight }: { insight: Insight }) {
               {personaConfig.icon} {personaConfig.label}
             </span>
           )}
-          <span className={styles.confidenceBadge}>
-            {insight.confidence}% confident
-          </span>
+          <span className={styles.confidenceBadge}>{insight.confidence}% confident</span>
         </Row>
-        <span className={styles.timestamp}>
-          {new Date(insight.createdAt).toLocaleDateString()}
-        </span>
+        <span className={styles.timestamp}>{new Date(insight.createdAt).toLocaleDateString()}</span>
       </div>
 
       <div className={styles.insightContent}>
@@ -333,6 +304,35 @@ function InsightCard({ insight }: { insight: Insight }) {
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+function InsightsPageSkeleton() {
+  return (
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <Column gap="1">
+          <div className={styles.skeletonTitle} />
+          <div className={styles.skeletonSubtitle} />
+        </Column>
+        <div className={styles.skeletonButton} />
+      </div>
+      <div className={styles.summaryGrid}>
+        {[1, 2, 3, 4].map(i => (
+          <div key={i} className={styles.skeletonCard} />
+        ))}
+      </div>
+      <div className={styles.filters}>
+        {[1, 2, 3, 4, 5].map(i => (
+          <div key={i} className={styles.skeletonFilter} />
+        ))}
+      </div>
+      <div className={styles.insightsList}>
+        {[1, 2, 3].map(i => (
+          <div key={i} className={styles.skeletonInsight} />
+        ))}
+      </div>
     </div>
   );
 }

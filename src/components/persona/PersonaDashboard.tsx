@@ -5,6 +5,7 @@ import { Row, Column, Text } from '@/components/zen';
 import { PersonaOverview } from './PersonaOverview';
 import { LiveVisitorFeed } from './LiveVisitorFeed';
 import { InsightsList } from './InsightsList';
+import { ContentEditor } from './ContentEditor';
 import styles from './PersonaDashboard.module.css';
 
 interface PersonaDashboardProps {
@@ -15,10 +16,13 @@ const TABS = [
   { id: 'overview', label: 'Overview', icon: '📊' },
   { id: 'live', label: 'Live Feed', icon: '⚡' },
   { id: 'insights', label: 'AI Insights', icon: '💡' },
+  { id: 'personalize', label: 'Personalize', icon: '✨' },
 ] as const;
 
 export function PersonaDashboard({ websiteId }: PersonaDashboardProps) {
-  const [activeTab, setActiveTab] = useState<'overview' | 'live' | 'insights'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'live' | 'insights' | 'personalize'>(
+    'overview',
+  );
 
   return (
     <Column gap="6" className={styles.dashboard}>
@@ -37,7 +41,7 @@ export function PersonaDashboard({ websiteId }: PersonaDashboardProps) {
         </Column>
 
         <div className={styles.tabsContainer}>
-          {TABS.map((tab) => (
+          {TABS.map(tab => (
             <button
               key={tab.id}
               className={`${styles.tab} ${activeTab === tab.id ? styles.tabActive : ''}`}
@@ -55,6 +59,7 @@ export function PersonaDashboard({ websiteId }: PersonaDashboardProps) {
         {activeTab === 'overview' && <PersonaOverview websiteId={websiteId} />}
         {activeTab === 'live' && <LiveVisitorFeed websiteId={websiteId} />}
         {activeTab === 'insights' && <InsightsList websiteId={websiteId} />}
+        {activeTab === 'personalize' && <ContentEditor websiteId={websiteId} />}
       </div>
     </Column>
   );
